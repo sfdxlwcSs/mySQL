@@ -411,6 +411,120 @@ SELECT REPLACE(FirstName, 'Ravi', 'Raj') AS ReplacedFirstName FROM Employees;
 SELECT REPLACE(Department, 'IT', 'Information Technology') AS ReplacedDepartment FROM Employees;
 -- 5. Replace all occurrences of 'Project' with 'Initiative' in the ProjectName column of the Projects table.
 SELECT REPLACE(ProjectName, 'Project', 'Initiative') AS ReplacedProjectName FROM Projects;
+-- Student Table
+
+CREATE TABLE Student (
+    StudentID INT,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    DateOfBirth DATE
+);
+
+-- Courses Table
+
+CREATE TABLE Courses (
+    CourseID INT,
+    CourseName VARCHAR(100),
+    Credits INT
+);
+
+
+
+
+-- Inserting Data into Student Table
+
+INSERT INTO Student (StudentID, FirstName, LastName, DateOfBirth) VALUES
+(1, 'John', 'Doe', '2001-05-15'),
+(2, 'Jane', 'Smith', '2000-10-22'),
+(3, 'Emily', 'Jones', '2002-03-30'),
+(4, 'Michael', 'Brown', '2001-07-19');
+
+INSERT INTO Student (StudentID, FirstName, LastName, DateOfBirth) VALUES
+(5, 'Alice', 'Williams', '2003-02-14'),
+(6, 'Bob', 'Taylor', '2000-12-05'),
+(7, 'Charlie', 'Harris', '2001-09-27'),
+(8, 'Diana', 'Clark', '2002-04-12'),
+(9, 'Eve', 'Martin', '2003-06-20');
+
+-- Inserting Data into Courses Table
+
+INSERT INTO Courses (CourseID, CourseName, Credits) VALUES
+(101, 'Introduction to Programming', 4),
+(102, 'Database Systems', 3),
+(103, 'Web Development', 4),
+(104, 'Data Structures', 3);
+
+INSERT INTO Courses (CourseID, CourseName, Credits) VALUES
+(105, 'Machine Learning', 4),
+(106, 'Artificial Intelligence', 4),
+(107, 'Computer Networks', 3),
+(108, 'Operating Systems', 3),
+(109, 'Cybersecurity', 3);
+
+-- Scenarios for ALTER TABLE Commands
+-- 1. Adding a Column
+-- Scenario: Add a Email column to the Student table.
+
+ALTER TABLE Student
+ADD Email VARCHAR(100);
+
+-- 2. Renaming a Column
+-- Scenario: Rename CourseName to Title in the Courses table.
+
+ALTER TABLE Courses
+RENAME COLUMN CourseName TO Title;
+
+-- 3. Changing Data Type of a Column
+-- Scenario: Change the data type of the Credits column in the Courses table from INT to DECIMAL(5, 2).
+
+ALTER TABLE Courses
+MODIFY Credits DECIMAL(5, 2);
+-- 4. Adding a Primary Key
+-- Scenario: Add a primary key to the StudentID column in the Student table.
+
+
+ALTER TABLE Student
+ADD PRIMARY KEY (StudentID);
+-- 5. Removing a Primary Key
+-- Scenario: Remove the primary key from the StudentID column in the Student table.
+
+
+ALTER TABLE Student
+DROP PRIMARY KEY;
+
+-- 6. Adding a Foreign Key
+
+-- Scenario: Add a CourseID column to the Student table and create a foreign key constraint that references the CourseID in the Courses table.
+
+-- Step 1: Add the CourseID column to the Student table.
+
+
+ALTER TABLE Student
+ADD CourseID INT;
+
+alter TABLE courses
+add unique(CourseID);
+describe courses;
+
+--  To make below statement work Courses(CourseID) should be either unique or primary or both
+ALTER TABLE Student
+ADD FOREIGN KEY (CourseID) REFERENCES Courses(CourseID);-- //FK contraints will be automatically named by mySQL
+ALTER TABLE student DROP FOREIGN KEY student_ibfk_1;
+
+
+
+-- Step 2: Add the foreign key constraint. name  explicitly by us "FK_Course"
+
+
+ALTER TABLE Student
+ADD CONSTRAINT FK_Course
+FOREIGN KEY (CourseID) REFERENCES Courses(CourseID);
+
+
+
+
+
+
 
 
 
