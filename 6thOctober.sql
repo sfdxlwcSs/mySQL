@@ -283,6 +283,134 @@ SELECT
 FROM employees;
 -- CONCAT_WS(separator, expression1, expression2, expression3,...)
 SELECT CONCAT_WS('-', FirstName, LastName,Salary) AS FullName FROM Employees;
+SELECT CURDATE() AS CurrentDate;
+SELECT DATE_ADD(HireDate, INTERVAL 1 YEAR) AS NextYear FROM Employees;
+SELECT DATE_SUB(HireDate, INTERVAL 1 MONTH) AS PreviousMonth FROM Employees;
+
+SELECT LEFT(FirstName, 2) AS FirstTwoChars FROM Employees;
+-- String function - RIGHT():
+
+SELECT RIGHT(FirstName, 2) AS LastTwoChars FROM Employees;
+-- Math function - ABS(): The ABS() function returns the absolute (positive) value of a number.
+SELECT ABS(-Salary) AS AbsoluteSalary FROM Employees;
+SELECT MOD(Salary, 10000) AS SalaryMod FROM Employees;
+SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
+SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
+SELECT FirstName FROM Employees;
+SELECT DepartmentName FROM Departments;
+
+SELECT FirstName FROM Employees
+UNION
+SELECT DepartmentName FROM Departments;
+-- Union All:
+SELECT FirstName FROM Employees
+UNION ALL
+SELECT DepartmentName FROM Departments;
+-- The UNION operator selects only distinct values by default. To allow duplicate values, use UNION ALL:
+-- The UNION operator is used to combine the result-set of two or more SELECT statements.
+
+-- Every SELECT statement within UNION must have the same number of columns
+-- The columns must also have similar data types
+-- The columns in every SELECT statement must also be in the same order
+
+SELECT FIELD(Department, 'HR', 'IT', 'Finance') AS DepartmentOrder FROM Employees;
+SELECT DATEDIFF(CURDATE(), HireDate) AS DaysSinceHire FROM Employees;
+-- String function - FIELD():
+-- SELECT CEIL(Salary / 1000) * 1000 AS CeilSalary FROM Employees;
+-- Math function - FLOOR():
+-- 62. String function - ASCII()
+-- SELECT ASCII(FirstName) AS AsciiValue FROM Employees;
+
+-- 63. String function - HEX()
+-- SELECT HEX(FirstName) AS HexValue FROM Employees;
+
+-- 64. String function - UNHEX()
+-- SELECT UNHEX('52617669') AS UnhexValue;
+
+-- 65. String function - SPACE()
+SELECT CONCAT(FirstName, SPACE(5), LastName) AS FullNameWithSpace FROM Employees;
+
+
+
+
+-- SELECT FLOOR(Salary / 1000) * 1000 AS FloorSalary FROM Employees;
+-- String function - REPEAT():
+-- =
+
+-- SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
+-- String function - REPLACE():
+
+-- SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
+-- CASE statements:
+
+
+SELECT FirstName,
+       Salary,
+       CASE
+           WHEN Salary > 70000 THEN 'High'
+           ELSE 'Low'
+       END AS SalaryRange
+FROM Employees;
+
+-- 61. String function - FIND_IN_SET()
+SELECT FIND_IN_SET('IT', 'HR,IT,Finance') AS PositionInSet;
+
+-- 66. String function - ELT()
+SELECT ELT(1, 'HR', 'IT', 'Finance') AS SecondElement;
+
+-- 67. Math function - PI()
+SELECT PI() AS PiValue;
+
+-- 68. Math function - COS()
+SELECT COS(0) AS CosValue;
+
+-- 69. Math function - SIN()
+SELECT SIN(PI() / 2) AS SinValue;
+
+-- 70. Math function - TAN()
+-- SELECT TAN(PI() / 4) AS TanValue;
+-- 71. Math function - EXP()
+-- SELECT EXP(1) AS ExpValue;
+
+-- 72. Math function - LOG()
+-- SELECT LOG(10) AS LogValue;
+
+-- 73. Math function - LOG10()
+-- SELECT LOG10(100) AS Log10Value;
+
+-- 74. Math function - DEGREES()
+-- SELECT DEGREES(PI()) AS DegreesValue;
+
+-- 75. Math function - RADIANS()
+-- SELECT RADIANS(180) AS RadiansValue;
+
+-- 76. String function - QUOTE()
+SELECT QUOTE(FirstName) AS QuotedName FROM Employees;
+
+-- 77. String function - BIN()
+-- SELECT BIN(EmployeeID) AS BinaryID FROM Employees;
+
+-- 78. String function - OCT()
+SELECT EmployeeID,OCT(EmployeeID) AS OctalID FROM Employees;
+
+-- 79. String function - LPAD() with spaces
+SELECT LPAD(FirstName, 10, ' ') AS PaddedNameWithSpaces FROM Employees;
+
+-- 80. String function - RPAD() with spaces
+SELECT RPAD(FirstName, 10, ' ') AS PaddedNameWithSpaces FROM Employees;
+-- 1. Replace all occurrences of 'a' with 'A' in the FirstName column of the Employees table.
+SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedFirstName FROM Employees;
+
+-- 2. Replace all occurrences of ' ' (space) with '-' in the LastName column of the Employees table.
+SELECT REPLACE(LastName, ' ', '-') AS ReplacedLastName FROM Employees;
+
+-- 3. Replace all occurrences of 'Ravi' with 'Raj' in the FirstName column of the Employees table.
+SELECT REPLACE(FirstName, 'Ravi', 'Raj') AS ReplacedFirstName FROM Employees;
+
+-- 4. Replace all occurrences of 'IT' with 'Information Technology' in the Department column of the Employees table.
+SELECT REPLACE(Department, 'IT', 'Information Technology') AS ReplacedDepartment FROM Employees;
+-- 5. Replace all occurrences of 'Project' with 'Initiative' in the ProjectName column of the Projects table.
+SELECT REPLACE(ProjectName, 'Project', 'Initiative') AS ReplacedProjectName FROM Projects;
 
 
 
