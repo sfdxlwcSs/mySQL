@@ -268,6 +268,22 @@ SELECT ROUND(Salary, 1) AS RoundedSalary FROM Employees;
 
 SELECT CHAR_LENGTH(FirstName) AS FirstNameCharLength FROM Employees;
 
+SELECT firstname,POSITION('a' IN FirstName) AS PositionA FROM Employees;
+-- return the first non null values from left to right
+SELECT employeeId,FirstName,LastName, COALESCE( LastName,employeeId) AS NonNullFirstName FROM Employees;
+--  if you wish row number then the below syntax is applicable 
+SELECT 
+    ROW_NUMBER() OVER() AS RowNumber, 
+    EmployeeID, 
+    FirstName, 
+    LastName, 
+    Department, 
+    Salary, 
+    HireDate
+FROM employees;
+-- CONCAT_WS(separator, expression1, expression2, expression3,...)
+SELECT CONCAT_WS('-', FirstName, LastName,Salary) AS FullName FROM Employees;
+
 
 
 
