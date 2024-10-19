@@ -1,4 +1,4 @@
-<h1>👋 Welcome to My GitHub Repository! mySQl Learning</h1>
+<h1>👋 Welcome to My GitHub Repository! mySQL Learning</h1>
 
 <h2>🚀 About Me</h2>
 <p>Hello! I'm <strong>Somnath Sharma</strong>, a passionate <strong>Technical Lead</strong> with over 10 years of experience in full-stack development, Salesforce, and business automation. Currently, I'm pursuing my <strong>MTech in AI & ML</strong> from <strong>PES College</strong> (October 2024 Batch), where I am expanding my knowledge in cutting-edge technologies such as Artificial Intelligence and Machine Learning.</p>
