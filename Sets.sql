@@ -13,3 +13,25 @@ SELECT student_id,sname,marks FROM student where marks=94;
 # To return duplicate results also
 SELECT student_id,sname,marks FROM student where sex='M' UNION ALL
 SELECT student_id,sname,marks FROM student where marks=94;
+
+# Example Queries
+# Using UNION:
+
+# This query combines the FirstName, LastName, and Department columns from both tables and removes duplicates.
+
+
+SELECT FirstName, LastName, Department
+FROM Employees
+UNION
+SELECT FirstName, LastName, Department
+FROM Contractors;
+
+
+# This query combines the FirstName, LastName, and Department columns from both tables and includes all rows, including duplicates.
+
+
+SELECT FirstName, LastName, Department
+FROM Employees
+UNION ALL
+SELECT FirstName, LastName, Department
+FROM Contractors;

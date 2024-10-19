@@ -1,0 +1,14 @@
+EmployeeID,FirstName,LastName,Department,Salary,HireDate
+1,Ravi,Kumar,IT,70000.00,2021-01-15
+2,Sita,Verma,HR,60000.00,2020-03-12
+3,Anil,Reddy,Finance,75000.68,2019-07-19
+4,Ravi,Sharma,IT,60000.00,2022-11-05
+5,Sunita,Nair,Marketing,68000.00,2021-06-25
+100,Ravi,NULL,IT,70000.00,2021-01-15
+101,Sita,NULL,HR,60000.00,2020-03-12
+103,Ravi,NULL,IT,70000.00,2022-11-05
+104,Patil,Sunita,Marketing,58000.00,2021-06-25
+105,ANNA,SS,IT,67.00,2021-06-25
+106,Alice,Smith,Engineering,70000.00,2020-01-15
+107,Bob,Johnson,Marketing,80000.00,2019-11-22
+108,Charlie,Brown,Engineering,75000.00,2021-06-10

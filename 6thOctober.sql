@@ -109,6 +109,8 @@ CREATE TABLE Departments (
     FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID)
 );
 
+describe  Departments;
+
 CREATE TABLE Projects (
     ProjectID INT  PRIMARY KEY,
     ProjectName VARCHAR(100) NOT NULL,
@@ -240,6 +242,8 @@ SELECT SUM(Salary) AS TotalSalary FROM Employees;
 -- Simple aggregation - AVG():
 
 SELECT AVG(Salary) AS AverageSalary FROM Employees;
+SELECT ROUND(AVG(Salary),2) AS AverageRoundedSalary FROM Employees;
+SELECT ceil(round(AVG(Salary),2)) AS AverageRoundedCeilSalary FROM Employees;
 SELECT MIN(Salary) AS MinimumSalary FROM Employees;
 -- Simple aggregation - MAX():
 
@@ -253,14 +257,19 @@ Describe employees;
 -- String function - LOWER():
 
 SELECT LOWER(FirstName) AS LowerFirstName FROM Employees;
+SELECT LOWER(lastname) AS LowerFirstName FROM Employees where lastname is not null;
 -- String function - UPPER():
 
 SELECT UPPER(FirstName) AS UpperFirstName FROM Employees;
 -- String function - SUBSTRING():
 SELECT SUBSTRING(FirstName, 1, 3) AS SubFirstName FROM Employees;
+SELECT SUBSTRING(FirstName,-2) AS SubFirstName FROM Employees;
+
 -- String function - REVERSE():
 
 SELECT REVERSE(FirstName) AS ReversedFirstName FROM Employees;
+ 
+Select firstname as PalindromeName from employees where FirstName=reverse(firstname); -- Palindrome
 SELECT LENGTH(FirstName) AS FirstNameLength FROM Employees;
 -- Math function - ROUND():
 SELECT ROUND(Salary, 1) AS RoundedSalary FROM Employees;
@@ -270,7 +279,10 @@ SELECT CHAR_LENGTH(FirstName) AS FirstNameCharLength FROM Employees;
 
 SELECT firstname,POSITION('a' IN FirstName) AS PositionA FROM Employees;
 -- return the first non null values from left to right
-SELECT employeeId,FirstName,LastName, COALESCE( LastName,employeeId) AS NonNullFirstName FROM Employees;
+-- if lastname is null put employee id
+SELECT employeeId,FirstName,LastName, COALESCE( LastName,employeeId) AS NonNullLastName FROM Employees;
+
+
 --  if you wish row number then the below syntax is applicable 
 SELECT 
     ROW_NUMBER() OVER() AS RowNumber, 
@@ -283,6 +295,8 @@ SELECT
 FROM employees;
 -- CONCAT_WS(separator, expression1, expression2, expression3,...)
 SELECT CONCAT_WS('-', FirstName, LastName,Salary) AS FullName FROM Employees;
+SELECT CONCAT_WS('-',LastName, FirstName,Salary) AS FullName FROM Employees;
+SELECT concat(CONCAT_WS('-',LastName, FirstName),'@gmail.com') AS FullName FROM Employees; -- if u dont want the separator check the above outut first
 SELECT CURDATE() AS CurrentDate;
 SELECT DATE_ADD(HireDate, INTERVAL 1 YEAR) AS NextYear FROM Employees;
 SELECT DATE_SUB(HireDate, INTERVAL 1 MONTH) AS PreviousMonth FROM Employees;
@@ -316,10 +330,10 @@ SELECT DepartmentName FROM Departments;
 SELECT FIELD(Department, 'HR', 'IT', 'Finance') AS DepartmentOrder FROM Employees;
 SELECT DATEDIFF(CURDATE(), HireDate) AS DaysSinceHire FROM Employees;
 -- String function - FIELD():
--- SELECT CEIL(Salary / 1000) * 1000 AS CeilSalary FROM Employees;
+SELECT CEIL(Salary / 1000) * 1000 AS CeilSalary FROM Employees; -- remove decimals 6788.99 becomes 6789
 -- Math function - FLOOR():
 -- 62. String function - ASCII()
--- SELECT ASCII(FirstName) AS AsciiValue FROM Employees;
+SELECT ASCII(FirstName) AS AsciiValue FROM Employees;
 
 -- 63. String function - HEX()
 -- SELECT HEX(FirstName) AS HexValue FROM Employees;
@@ -337,10 +351,10 @@ SELECT CONCAT(FirstName, SPACE(5), LastName) AS FullNameWithSpace FROM Employees
 -- String function - REPEAT():
 -- =
 
--- SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
+SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
 -- String function - REPLACE():
 
--- SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
+SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
 -- CASE statements:
 
 
@@ -348,9 +362,9 @@ SELECT FirstName,
        Salary,
        CASE
            WHEN Salary > 70000 THEN 'High'
-           ELSE 'Low'
+           ELSE 'Low' 
        END AS SalaryRange
-FROM Employees;
+FROM Employees; 
 
 -- 61. String function - FIND_IN_SET()
 SELECT FIND_IN_SET('IT', 'HR,IT,Finance') AS PositionInSet;
@@ -519,11 +533,6 @@ ALTER TABLE student DROP FOREIGN KEY student_ibfk_1;
 ALTER TABLE Student
 ADD CONSTRAINT FK_Course
 FOREIGN KEY (CourseID) REFERENCES Courses(CourseID);
-
-
-
-
-
 
 
 
