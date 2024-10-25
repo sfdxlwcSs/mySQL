@@ -14,6 +14,7 @@
 
 <h3>Expertise:</h3>
 <ul>
+<li>Salesforce</li>
   <li><strong>Salesforce LWC (Lightning Web Components):</strong> Building dynamic, responsive components using Salesforce's LWC framework.</li>
   <li><strong>HTML/CSS:</strong> Creating modern and responsive web interfaces.</li>
   <li><strong>Cloud & DevOps:</strong> Git, Jenkins, Auto Rabbit – version control, continuous integration, and deployment pipelines.</li>
