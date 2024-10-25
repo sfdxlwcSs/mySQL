@@ -68,19 +68,6 @@ Select Department,sum(salary) as TotalSalary from employees
  having SumSal>650000; -- observe the use of aliasing 
  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 Select * from employees order by 5 desc; -- here 5 refers to Index of Salary column
 Select * from employees 
 order by 5 desc ,FirstName; 
@@ -90,6 +77,7 @@ order by 5 desc ,FirstName,lastname; -- null is given priority as its ascii valu
 select 10 div 2;
 -- just a view for all rows
 select *,'Somnath' as owner from employees;
+-- to check this
 SELECT * from(
        Select *,
        CASE
@@ -123,6 +111,9 @@ INSERT INTO Contractors (ContractorID, FirstName, LastName, Department, HourlyRa
 Select cast(employeeid as char) from employees e;
 Select distinct firstname from employees;
 Select distinct * from employees; # if table has primarykey this stateemnt does not make any difference
+
+DROP SCHEMA IF EXISTS sakila;
+CREATE SCHEMA sakila;
 
 
 

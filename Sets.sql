@@ -35,3 +35,16 @@ FROM Employees
 UNION ALL
 SELECT FirstName, LastName, Department
 FROM Contractors;
+
+SELECT account_number
+FROM deposits
+UNION
+SELECT account_number
+FROM withdrawals;
+
+# SELECT account_number
+# FROM deposits
+# EXCEPT
+# SELECT account_number
+# FROM withdrawals;
+

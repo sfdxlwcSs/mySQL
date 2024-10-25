@@ -1,0 +1,297 @@
+Question: List all employees with their department names.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id;
+Question: List all employees and their job titles.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+JOIN jobs j ON ej.job_id = j.job_id;
+Question: List all employees along with their managers' names.
+
+sql
+Copy code
+SELECT e.first_name AS employee_first_name, e.last_name AS employee_last_name, 
+       m.first_name AS manager_first_name, m.last_name AS manager_last_name
+FROM employees e
+JOIN employees m ON e.manager_id = m.emp_id;
+Question: List all employees and their corresponding salary amounts.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, s.salary_amount
+FROM employees e
+JOIN salaries s ON e.emp_id = s.emp_id;
+Question: List all employees with their job titles and department names.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title, d.department_name
+FROM employees e
+JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+JOIN jobs j ON ej.job_id = j.job_id
+JOIN departments d ON e.department_id = d.department_id;
+Natural Joins
+Question: List all employees with their department names.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+NATURAL JOIN departments d;
+Question: List all employees and their job titles.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+NATURAL JOIN employee_jobs ej
+NATURAL JOIN jobs j;
+Question: List all employees along with their managers' names.
+
+sql
+Copy code
+SELECT e.first_name AS employee_first_name, e.last_name AS employee_last_name, 
+       m.first_name AS manager_first_name, m.last_name AS manager_last_name
+FROM employees e
+NATURAL JOIN employees m;
+Question: List all employees and their corresponding salary amounts.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, s.salary_amount
+FROM employees e
+NATURAL JOIN salaries s;
+Question: List all employees with their job titles and department names.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title, d.department_name
+FROM employees e
+NATURAL JOIN employee_jobs ej
+NATURAL JOIN jobs j
+NATURAL JOIN departments d;
+Equi Joins
+Question: List all employees with their department names.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+JOIN departments d ON e.department_id = d.department_id;
+Question: List all employees and their job titles.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+JOIN jobs j ON ej.job_id = j.job_id;
+Question: List all employees along with their managers' names.
+
+sql
+Copy code
+SELECT e.first_name AS employee_first_name, e.last_name AS employee_last_name, 
+       m.first_name AS manager_first_name, m.last_name AS manager_last_name
+FROM employees e
+JOIN employees m ON e.manager_id = m.emp_id;
+Question: List all employees and their corresponding salary amounts.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, s.salary_amount
+FROM employees e
+JOIN salaries s ON e.emp_id = s.emp_id;
+Question: List all employees with their job titles and department names.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title, d.department_name
+FROM employees e
+JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+JOIN jobs j ON ej.job_id = j.job_id
+JOIN departments d ON e.department_id = d.department_id;
+Non Equi Joins
+Question: List employees whose salary is less than the average salary.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, e.salary
+FROM employees e
+JOIN salaries s ON e.emp_id = s.emp_id
+WHERE e.salary < (SELECT AVG(salary_amount) FROM salaries);
+Question: List employees whose salary is more than their manager's salary.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, e.salary
+FROM employees e
+JOIN employees m ON e.manager_id = m.emp_id
+WHERE e.salary > m.salary;
+Question: List employees with salaries within a certain range.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, e.salary
+FROM employees e
+JOIN salaries s ON e.emp_id = s.emp_id
+WHERE e.salary BETWEEN 30000 AND 50000;
+Question: List employees with a salary greater than a certain amount but less than another amount.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, e.salary
+FROM employees e
+JOIN salaries s ON e.emp_id = s.emp_id
+WHERE e.salary > 40000 AND e.salary < 80000;
+Question: List employees whose salary is not equal to the average salary.
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, e.salary
+FROM employees e
+JOIN salaries s ON e.emp_id = s.emp_id
+WHERE e.salary <> (SELECT AVG(salary_amount) FROM salaries);
+Self Join
+Question: List all employees and their managers.
+
+sql
+Copy code
+SELECT e.first_name AS employee_first_name, e.last_name AS employee_last_name, 
+       m.first_name AS manager_first_name, m.last_name AS manager_last_name
+FROM employees e
+JOIN employees m ON e.manager_id = m.emp_id;
+Question: List all employees who work in the same department.
+
+sql
+Copy code
+SELECT e1.first_name AS employee1_first_name, e1.last_name AS employee1_last_name, 
+       e2.first_name AS employee2_first_name, e2.last_name AS employee2_last_name
+FROM employees e1
+JOIN employees e2 ON e1.department_id = e2.department_id
+WHERE e1.emp_id <> e2.emp_id;
+Question: List employees who earn more than their managers.
+
+sql
+Copy code
+SELECT e.first_name AS employee_first_name, e.last_name AS employee_last_name, e.salary, 
+       m.first_name AS manager_first_name, m.last_name AS manager_last_name, m.salary AS manager_salary
+FROM employees e
+JOIN employees m ON e.manager_id = m.emp_id
+WHERE e.salary > m.salary;
+Question: List employees who have the same manager.
+
+sql
+Copy code
+SELECT e1.first_name AS employee1_first_name, e1.last_name AS employee1_last_name, 
+       e2.first_name AS employee2_first_name, e2.last_name AS employee2_last_name, 
+       m.first_name AS manager_first_name, m.last_name AS manager_last_name
+FROM employees e1
+JOIN employees e2 ON e1.manager_id = e2.manager_id
+JOIN employees m ON e1.manager_id = m.emp_id
+WHERE e1.emp_id <> e2.emp_id;
+Question: List employees who work in different departments but have the same job title.
+
+sql
+Copy code
+SELECT e1.first_name AS employee1_first_name, e1.last_name AS employee1_last_name, d1.department_name AS department1,
+       e2.first_name AS employee2_first_name, e2.last_name AS employee2_last_name, d2.department_name AS department2, 
+       j.job_title
+FROM employees e1
+JOIN employees e2 ON e1.emp_id <> e2.emp_id
+JOIN employee_jobs ej1 ON e1.emp_id = ej1.emp_id
+JOIN employee_jobs ej2 ON e2.emp_id = ej2.emp_id
+JOIN jobs j ON ej1.job_id = j.job_id AND ej2.job_id = j.job_id
+JOIN departments d1 ON e1.department_id = d1.department_id
+JOIN departments d2 ON e2.department_id = d2.department_id;
+Left & Right Join
+Question: List all employees with their department names (including employees without a department).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.department_id;
+Question: List all departments with their employees (including departments without employees).
+
+sql
+Copy code
+SELECT d.department_name, e.first_name, e.last_name
+FROM departments d
+RIGHT JOIN employees e ON d.department_id = e.department_id;
+Question: List all employees with their job titles (including employees without a job).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+LEFT JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+LEFT JOIN jobs j ON ej.job_id = j.job_id;
+Question: List all jobs with their employees (including jobs without employees).
+
+sql
+Copy code
+SELECT j.job_title, e.first_name, e.last_name
+FROM jobs j
+RIGHT JOIN employee_jobs ej ON j.job_id = ej.job_id
+RIGHT JOIN employees e ON ej.emp_id = e.emp_id;
+Question: List all employees with their salary amounts (including employees without a recorded salary).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, s.salary_amount
+FROM employees e
+LEFT JOIN salaries s ON e.emp_id = s.emp_id;
+Inner & Outer Join
+Question: List all employees with their department names (only those with a department).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+INNER JOIN departments d ON e.department_id = d.department_id;
+Question: List all employees with their job titles (only those with a job).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+INNER JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+INNER JOIN jobs j ON ej.job_id = j.job_id;
+Question: List all employees with their salary amounts (only those with a recorded salary).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, s.salary_amount
+FROM employees e
+INNER JOIN salaries s ON e.emp_id = s.emp_id;
+Question: List all employees with their department names (including employees without a department).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+LEFT JOIN departments d ON e.department_id = d.department_id
+UNION
+SELECT e.first_name, e.last_name, d.department_name
+FROM employees e
+RIGHT JOIN departments d ON e.department_id = d.department_id;
+Question: List all employees with their job titles (including employees without a job).
+
+sql
+Copy code
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+LEFT JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+LEFT JOIN jobs j ON ej.job_id = j.job_id
+UNION
+SELECT e.first_name, e.last_name, j.job_title
+FROM employees e
+RIGHT JOIN employee_jobs ej ON e.emp_id = ej.emp_id
+RIGHT JOIN jobs j ON ej.job_id = j.job_id;
