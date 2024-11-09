@@ -1,7 +1,7 @@
 -- Retrieve employees starting from the 6th row, skipping the first 5 rows.
 use hr;
 SELECT * FROM employees LIMIT 5 OFFSET 2;
-select * from employees limit 2,5
+select * from employees limit 2, 5
 -- Retrieve the top 5 jobs, excluding the first 2
 SELECT * FROM jobs ORDER BY min_salary LIMIT 2, 5;
 -- Skip the first 3 rows and fetch the next 5 rows in employees table
