@@ -38,7 +38,7 @@ where l.location_id=d.location_id;
 Select * from departments,locations;
 
 select * from locations
-natural join departments ;-- note this works when column name is same basically an inner join
+natural join departments ;-- note this works when column name ,in such case we dont have to explicith explain the common column ,is same basically an inner join
 
 select * from locations
 cross join departments ;

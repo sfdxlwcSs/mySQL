@@ -1,17 +1,25 @@
 -- Retrieve employees starting from the 6th row, skipping the first 5 rows.
 use hr;
 SELECT * FROM employees LIMIT 5 OFFSET 2;
-select * from employees limit 2, 5
+# the LIMIT 2,5 would work in some SQL databases like MySQL, where the first number is the offset (starting from the third row) 
+# and the second number is the number of rows to return (5 rows).
+select * from employees limit 2, 5; 
 -- Retrieve the top 5 jobs, excluding the first 2
 SELECT * FROM jobs ORDER BY min_salary LIMIT 2, 5;
 -- Skip the first 3 rows and fetch the next 5 rows in employees table
 SELECT * FROM employees LIMIT 5 OFFSET 3;
+
 SELECT * FROM jobs LIMIT 3 OFFSET 0;
+
 -- is equivalent to
 SELECT * FROM jobs LIMIT 3;
 
 /*** few extra scenarios ******/
 drop table new_employees;
+# NOTE THE BELOW QUERY
+# CREATE TABLE new_employees AS SELECT ... creates the new table new_employees.
+# The table structure (columns and data types) is determined by the columns selected in the SELECT statement.
+# The data from the SELECT query is then used to populate the new table.
 CREATE TABLE new_employees AS
 SELECT employee_id, first_name, last_name, hire_date,salary
 FROM employees
@@ -26,6 +34,7 @@ CREATE TABLE new_employees (
 SELECT employee_id, first_name, last_name, hire_date
 FROM employees
 WHERE department_id = 30;
+
 /***
 
 */
@@ -61,6 +70,7 @@ SELECT student_name, semester, section, COUNT(*) AS occurrence
 FROM student_table
 GROUP BY student_name, semester, section
 HAVING COUNT(*) > 1;
+-- Inner Join: The query performs an inner join between two instances of the same table (s1 and s2), where:
 -- Delete duplicates based on student_name, semester, and section columns, keeping the one with the lowest student_id
 DELETE s1
 FROM student_table s1
