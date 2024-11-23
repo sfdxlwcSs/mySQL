@@ -1,0 +1,145 @@
+LAG: Tracking Past Transactions
+Question: What was each customer's previous transaction amount?
+Use Case: Suppose you want to flag unusual spending patterns, like consecutive large withdrawals. LAG can help by showing the previous transaction amount alongside each current one. By comparing the last and current transactions, you could identify patterns of rapid balance decline or growth.
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LAG(Transaction_Amount, 1) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Prev_Transaction
+FROM transactions;
+
+2. LEAD: Anticipating Future Transactions
+Question: What was the customer's next transaction?
+Use Case: If you’re looking to estimate a customer’s usual transaction cycle, LEAD helps see what typically follows a transaction. This can assist in proactive customer service, where the bank might remind customers to maintain their balance based on anticipated future expenses.
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LEAD(Transaction_Amount, 1) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Next_Transaction
+FROM transactions;
+
+FIRST_VALUE: Identifying the Starting Balance
+Question: What was the initial transaction for each customer this year?
+Use Case: Banks often want to track spending habits relative to starting balances. Using FIRST_VALUE, you can see each customer’s starting balance or transaction at the beginning of the analysis period, which can be helpful to measure growth or decline in their balance over time.
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       FIRST_VALUE(Transaction_Amount) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS First_Transaction
+FROM transactions;
+
+
+
+Demonstrations of Window Functions
+LAG: Shows the previous transaction amount for each transaction by customer.
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LAG(Transaction_Amount, 1) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Prev_Transaction
+FROM transactions;
+LEAD: Shows the next transaction amount for each transaction by customer.
+
+LEAD  - 
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LEAD(Transaction_Amount, 1) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Next_Transaction
+FROM transactions;
+
+FIRST_VALUE: Retrieves the first transaction for each customer in the dataset.
+
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       FIRST_VALUE(Transaction_Amount) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS First_Transaction
+FROM transactions;
+
+LAST_VALUE: Retrieves the most recent transaction amount for each customer within the partition (may need RANGE BETWEEN).
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LAST_VALUE(Transaction_Amount) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date 
+       RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS Last_Transaction
+FROM transactions;
+
+NTILE: Divides data into quartiles based on transaction dates within each customer’s data.
+
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       NTILE(4) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Quartile
+FROM transactions;
+
+SUM (Running Total): Calculates a running total for the balance.
+
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount, Balance,
+       SUM(Balance) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Running_Balance
+FROM transactions;
+
+RANGE BETWEEN (Rolling Sum): Calculates the rolling sum for the balance, considering the range between 2 preceding and the current row.
+
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount, Balance,
+       SUM(Balance) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date 
+       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS Rolling_Sum_3
+FROM transactions;
+Each of these functions can be explained in depth using this table and by highlighting specific rows and expected outcomes for each calculation type, giving students a clear view of the practical applications of window functions in SQL for financial analysis.
+
+
+
+
+
+
+Let's walk through a realistic use case for each of these functions. Imagine you’re a data analyst at a bank tasked with analyzing customer transaction behaviors and trends. You’ve been given the transactions table and want to answer several questions about customer activity.
+
+Use Case: Customer Transaction Behavior Analysis
+Imagine a bank wants to:
+
+Identify spending patterns for each customer.
+Calculate rolling balances to anticipate overdraft risks.
+Segment customers based on transaction frequency and magnitude.
+Let's see how each function helps address these goals.
+
+1. LAG: Tracking Past Transactions
+Question: What was each customer's previous transaction amount?
+Use Case: Suppose you want to flag unusual spending patterns, like consecutive large withdrawals. LAG can help by showing the previous transaction amount alongside each current one. By comparing the last and current transactions, you could identify patterns of rapid balance decline or growth.
+sql
+Copy code
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LAG(Transaction_Amount, 1) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Prev_Transaction
+FROM transactions;
+2. LEAD: Anticipating Future Transactions
+Question: What was the customer's next transaction?
+Use Case: If you’re looking to estimate a customer’s usual transaction cycle, LEAD helps see what typically follows a transaction. This can assist in proactive customer service, where the bank might remind customers to maintain their balance based on anticipated future expenses.
+sql
+Copy code
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LEAD(Transaction_Amount, 1) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Next_Transaction
+FROM transactions;
+3. FIRST_VALUE: Identifying the Starting Balance
+Question: What was the initial transaction for each customer this year?
+Use Case: Banks often want to track spending habits relative to starting balances. Using FIRST_VALUE, you can see each customer’s starting balance or transaction at the beginning of the analysis period, which can be helpful to measure growth or decline in their balance over time.
+sql
+Copy code
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       FIRST_VALUE(Transaction_Amount) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS First_Transaction
+FROM transactions;
+4. LAST_VALUE: Finding the Most Recent Transaction
+Question: What’s the latest transaction amount?
+Use Case: To get a quick snapshot of a customer’s most recent transaction, LAST_VALUE can be used. This is useful if you want to monitor any sudden withdrawals or deposits and respond with relevant offers or advice to help them maintain a healthy balance.
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       LAST_VALUE(Transaction_Amount) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date 
+       RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS Last_Transaction
+FROM transactions;
+
+NTILE: Customer Segmentation Based on Activity
+Question: Can we group customers based on transaction frequency?
+Use Case: To create customer segments for targeted offers, NTILE can split transactions into quartiles (or any other number of segments). This can help you understand which customers have high transaction volumes and which have lower activity, enabling tailored marketing or account services.
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount,
+       NTILE(4) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Quartile
+FROM transactions;
+
+SUM (Running Total): Monitoring Balance Trends
+Question: What’s the running balance trend?
+Use Case: A running total of the balance helps detect potential overdraft risks or substantial balance accumulations. By calculating a cumulative sum, you can monitor balance changes in real time, which is particularly useful for customers who may need financial management assistance.
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount, Balance,
+       SUM(Balance) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date) AS Running_Balance
+FROM transactions;
+
+
+ RANGE BETWEEN: Short-Term Balance Trends
+Question: What’s the balance over the last three transactions?
+Use Case: A rolling sum using RANGE BETWEEN can show trends within a limited window, like the last few transactions, giving insight into recent financial behavior. This can help spot rapid balance changes, potentially indicating irregular activity, and can trigger notifications for customers to review their account activity.
+
+SELECT Customer_ID, Transaction_ID, Transaction_Amount, Balance,
+       SUM(Balance) OVER (PARTITION BY Customer_ID ORDER BY Transaction_Date 
+       ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS Rolling_Sum_3
+FROM transactions;
