@@ -62,7 +62,7 @@ VALUES
 (3, 'Sam', 'Brown', 'HR', NULL),           -- Sam is an HR manager
 (4, 'Emily', 'Davis', 'Sales', 1),         -- Emily reports to John
 (5, 'Michael', 'Johnson', 'HR', 3);        -- Michael reports to Sam
-
+SET SQL_SAFE_UPDATES = 0;
 UPDATE employees
 SET salary = CASE employee_id
     WHEN 1 THEN 5000.00 -- John
@@ -71,6 +71,7 @@ SET salary = CASE employee_id
     WHEN 4 THEN 6000.00 -- Sam
     WHEN 5 THEN 3500.00 -- Michael
 END;
+SET SQL_SAFE_UPDATES = 1;
 
 
 INSERT INTO sales (sale_id, employee_id, product_id, sales_amount, sale_date)
