@@ -250,7 +250,8 @@ trans_id,tran_Date,tran_Amount from
 transaction t
 join message m 
 on t.tran_date =m.event_dt
-and m.event='Holiday') 
+and m.event='Holiday')
+SELECT * FROM Temp;  #SELECT * FROM Temp; #note this query runs  with Select * from Temp
 
 select *
 from account a join temp
