@@ -24,22 +24,36 @@ on a.Acct_type=i.Acct_type;
 
 use hr;
 
+-- department_id having more than 2 employees
+Select count(*) noofemployess,department_id
+from employees e
+group by department_id
+having count(*)>2;
 
 with temp as (Select count(*) noofemployess,department_id
 from employees e
 group by department_id
 having count(*)>2)
 
+-- get department information having more than 2 employees
 select * from departments d
 join temp e
 on d.department_id=e.department_id;
 
 
-# select * from locations l
-# join (select * from departments d
-# join temp e
-# on d.department_id=e.department_id) joineddata
-# on l.location_id=joineddata.location_id;
+
+-- get department and location information information having more than 2 employees
+with dept_count as (
+Select count(*) ,department_id
+from employees
+group by department_id
+having count(*)>2)
+
+Select d.* ,l.city locTableData,l.location_id from departments d
+join dept_count empTable
+on d.department_id =empTable.department_id
+join locations l on d.location_id=l.location_id;
+
 
 use hr;
 -- Create dependents table
