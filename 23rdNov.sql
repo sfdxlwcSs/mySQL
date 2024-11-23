@@ -176,6 +176,12 @@ over (partition by department_id order  by salary desc) as first_sal
 from employees
 order by  department_id,salary desc; #employee id of a person having highest salary
 
+# Key Concepts:
+# UNBOUNDED PRECEDING: Refers to the first row in the partition, no matter where the current row is.
+# UNBOUNDED FOLLOWING: Refers to the last row in the partition, no matter where the current row is.
+# CURRENT ROW: Refers to the current row being processed.
+# These keywords are often used with the ROWS or RANGE clauses to define the window (or frame) for calculations.
+
 Select employee_id,salary,department_id,
 last_value(salary) 
 over (partition by department_id order  by salary desc
