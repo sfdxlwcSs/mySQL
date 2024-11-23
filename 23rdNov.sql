@@ -75,7 +75,10 @@ WHERE EXISTS (
     FROM dependents dep
     WHERE e.employee_id = dep.employee_id
 );
-
+# The SELECT 1 in the subquery inside the EXISTS clause is simply a convention used because the actual data retrieved is not important.
+#  The subquery’s purpose is to check for the existence of matching rows, not to return any data. 
+#  The value 1 is just a placeholder, and you could use any constant (like SELECT 'x') 
+# without changing the behavior of the query.
 -- Insert sample data into dependents table
 INSERT INTO dependents (dependent_id, employee_id, first_name, last_name, relationship)
 VALUES

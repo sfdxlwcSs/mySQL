@@ -12,6 +12,10 @@ CREATE TABLE employees (
     FOREIGN KEY (manager_id) REFERENCES employees(employee_id)
 );
 
+ALTER TABLE employees
+ADD salary DECIMAL(10, 2);
+
+
 CREATE TABLE sales (
     sale_id INT PRIMARY KEY,
     employee_id INT,
@@ -59,6 +63,16 @@ VALUES
 (4, 'Emily', 'Davis', 'Sales', 1),         -- Emily reports to John
 (5, 'Michael', 'Johnson', 'HR', 3);        -- Michael reports to Sam
 
+UPDATE employees
+SET salary = CASE employee_id
+    WHEN 1 THEN 5000.00 -- John
+    WHEN 2 THEN 3000.00 -- Jane
+    WHEN 3 THEN 4000.00 -- Emily
+    WHEN 4 THEN 6000.00 -- Sam
+    WHEN 5 THEN 3500.00 -- Michael
+END;
+
+
 INSERT INTO sales (sale_id, employee_id, product_id, sales_amount, sale_date)
 VALUES
 (1, 2, 101, 200.50, '2024-10-15'),    -- Jane sold product 101
@@ -95,6 +109,8 @@ VALUES
 
 # *********************************
 
+
+Use SelfLearning;
 WITH Temp AS (
     SELECT employee_id, first_name, last_name
     FROM employees
@@ -105,6 +121,27 @@ SELECT * FROM Temp; #note this query runs  with Select * from Temp
  SELECT employee_id, first_name, last_name
     FROM employees
     WHERE department = 'Sales';
+
+SELECT employee_id, SUM(sales_amount) AS total_sales
+    FROM sales
+    GROUP BY employee_id;
+   #  
+#     Explanation:
+# The WITH clause creates a CTE TotalSales that calculates the total sales for each employee.
+# The main query then joins the employees table with the TotalSales CTE to return employees with sales greater than 500.
+    WITH TotalSales AS (
+    SELECT employee_id, SUM(sales_amount) AS total_sales
+    FROM sales
+    GROUP BY employee_id
+)
+SELECT e.first_name, e.last_name, ts.total_sales
+FROM employees e
+JOIN TotalSales ts ON e.employee_id = ts.employee_id
+WHERE ts.total_sales > 500;
+
+SELECT employee_id, salary,
+       SUM(salary) OVER (PARTITION BY department ORDER BY salary ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS cumulative_salary
+FROM employees;
 
 
 
