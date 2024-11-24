@@ -145,6 +145,39 @@ SELECT employee_id, salary,
 FROM employees;
 
 
+SELECT 
+    concat(first_name,' ',last_name),
+    Department,
+    Salary,
+    SUM(Salary) OVER (PARTITION BY Department ORDER BY Salary ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS Running_Total
+FROM employees;
+
+# Explanation:
+
+# ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW:
+# For each row, the sum includes all rows from the first row up to the current row in the partition.
+# For HR:
+# Alice (1st HR): 7000
+# Bob (2nd HR): 7000 + 8000 = 15000
+# Charlie (3rd HR): 7000 + 8000 + 9000 = 24000
+
+SELECT 
+    concat(first_name,' ',last_name),
+    department,
+    Salary,
+    SUM(Salary) OVER (PARTITION BY department ORDER BY Salary ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) AS Remaining_Total
+FROM employees;
+
+# Explanation:
+
+# ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING:
+# For each row, the sum includes the current row and all rows after it.
+# For HR:
+# Alice (1st HR): 7000 + 8000 + 9000 = 24000
+# Bob (2nd HR): 8000 + 9000 = 17000
+# Charlie (3rd HR): 9000
+
+
 
 
 
