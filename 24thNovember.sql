@@ -3,9 +3,9 @@
 
 INSERT INTO session5.transaction (Trans_ID, Acct_Num, Tran_Amount, Tran_Date,Channel)
 VALUES 
-    (21,1001, 200, '2020-04-24', 'UPI transfer'),
-   (22,1002, 200, '2020-05-24', 'UPI transfer'),
-     (23,1001, 200, '2020-05-24', 'Bankers cheque');
+(21,1001, 200, '2020-04-24', 'UPI transfer'),
+(22,1002, 200, '2020-05-24', 'UPI transfer'),
+(23,1001, 200, '2020-05-24', 'Bankers cheque');
 
 SELECT Month(T.Tran_Date) as "Month",  
 count(case when T.Channel= 'ATM withdrawal' THEN 1 END) ATM_transaction, 
