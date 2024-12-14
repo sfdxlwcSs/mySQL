@@ -78,8 +78,25 @@ WHERE e.department_id = d.department_id
     
     UPDATE emp_view_complex_view
 SET first_name = 'Ram'
-WHERE department_id = 90; # does not update the source
+WHERE department_id = 90; # does  update the source emp_backup
 
  UPDATE hr.emp_backup
 SET first_name = 'Shyam'
 WHERE department_id = 90; # view does  get updated
+
+# A horizontal view refers to a view that filters rows based on specific conditions. 
+# It is often used to restrict access to certain rows in a table while presenting the same column structure.
+CREATE VIEW department_10_employees AS
+SELECT employee_id, first_name, last_name, department_id, salary
+FROM employees
+WHERE department_id = 10;
+CREATE VIEW newview AS
+SELECT employee_id, first_name, last_name, department_id
+from emp_backup;
+ALTER TABLE hr.emp_backup
+DROP COLUMN first_name; 
+#  after this if u do this u get error references invalid table
+SELECT * FROM hr.newview;
+
+
+
