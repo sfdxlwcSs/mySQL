@@ -97,6 +97,8 @@ ALTER TABLE hr.emp_backup
 DROP COLUMN first_name; 
 #  after this if u do this u get error references invalid table
 SELECT * FROM hr.newview;
+# WITH CHECK OPTION
+# WILL NOT ALLOW DATA INSERTED OR UPDATED FOR ANYTHING THAT DOES NOT FOLLOW FILTER C0NDITION
 
 
 
