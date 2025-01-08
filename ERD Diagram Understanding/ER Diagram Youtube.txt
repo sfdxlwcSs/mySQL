@@ -1,0 +1,16 @@
+https://www.youtube.com/watch?v=xsg9BDiwiJE
+
+https://www.youtube.com/watch?v=hktyW5Lp0Vo
+
+Note :Above video give basic understanding onCardinality Notations used primarily
+ 1 : A customer can have o or many orders.Always consider min and max concept on the both sides of table.
+Refer diagram.
+2:For an order to exist it should have customer and 1 order can have max 1 customer
+3:An order can have min 1 Product or many products
+4:A product could be part of 0 or many orders.
+Note these assumptions decide the cardinality notations used.
+
+Customers and order have 1 is to many relationship.
+Orders and Products have Many to Many relationship.
+We can have an Order Item Table which acts as a junction object connecting order and product
+ to form many to many relationship.
