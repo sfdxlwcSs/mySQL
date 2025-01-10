@@ -55,10 +55,10 @@ FROM
 WHERE
     sid = 1;
     
-ALTER TABLE student
+ALTER TABLE student --  RENAME COLUMN phoneno TO contact_no;
 CHANGE COLUMN phoneno contact_no varchar(12);
 
-ALTER TABLE student
+ALTER TABLE student -- ADD COLUMN marks  integer;
 ADD COLUMN marks  integer;
 
 ALTER TABLE student
@@ -74,7 +74,7 @@ insert into student (sid,sname,email,aadharno,contact_no,sex,marks) values(2,'Em
 insert into student (sid,sname,email,aadharno,contact_no,sex,marks) values(3,'Employee3','emp3@dovercorp.com','S14bfjhgk7',641186006,'F',91);
 insert into student (sid,sname,email,aadharno,contact_no,sex,marks) values(4,'Employee4','emp4@dovercorp.com','Sg43fjhgk7',641186006,'F',91);
 insert into student (sid,sname,email,aadharno,contact_no,sex,marks) values(7,'Employee7','emp7@dovercorp.com','Sg43fjhgk7',641186005,'F',91);
-#if u no the order of columns then use below syntax
+--  if u no the order of columns then use below syntax
 insert into student  values(5,'Employee5','emp2@dovercorp.com','S143fjhgk7',441186006,'F',91);
 insert into student  values(6,'Employee7','emp7@dovercorp.com','S143vjhgk7',441126006,'M',94);
 insert into student  values(7,'Em##ployee6','emp6@dovercorp.com','S1g3vjhgk7',441126606,'M',64,NULL);
@@ -86,12 +86,14 @@ SELECT
     COUNT(*)
 FROM
     student;
-    
+--  The second query will only count the rows where the 'email' column has a non-NULL value. 
+--  This is because the COUNT(*) function counts all rows, 
+--  while the COUNT(email) function only counts the rows where the 'email' column is not NULL.    
 SELECT 
     COUNT(email)
 FROM
     student;
-#aliasing
+-- aliasing
 SELECT 
     sid Id
 FROM

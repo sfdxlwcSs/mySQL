@@ -1,9 +1,9 @@
 select departmentname from departments; 
 select FirstName from employees group by Department; -- this will give error
 -- Error Code: 1055. Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'mtechlearning.employees.FirstName' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
-# You are selecting FirstName, but it is not part of an aggregate function (e.g., COUNT, MAX, MIN, etc.) 
-# and is not included in the GROUP BY clause. MySQL doesn't know which FirstName to return for each
-#  Department since there could be multiple FirstNames for each Department.
+-- # You are selecting FirstName, but it is not part of an aggregate function (e.g., COUNT, MAX, MIN, etc.) 
+-- # and is not included in the GROUP BY clause. MySQL doesn't know which FirstName to return for each
+-- #  Department since there could be multiple FirstNames for each Department.
 select Department from employees group by Department; 
 select Department,count(*) from employees group by Department; 
 select Department,count(EmployeeID) from employees group by Department; 
@@ -77,16 +77,8 @@ order by 5 desc ,FirstName,lastname; -- null is given priority as its ascii valu
 select 10 div 2;
 -- just a view for all rows
 select *,'Somnath' as owner from employees;
--- to check this
-SELECT * from(
-       Select *,
-       CASE
-           WHEN Salary > 70000 THEN 'High'
-           WHEN Salary =68000 then  'Equal'
-           ELSE 'Low' 
-       END AS bucket
-FROM Employees ) e
-order by bucket ;
+
+
 
 CREATE TABLE Contractors (
     ContractorID INT,

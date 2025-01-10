@@ -63,7 +63,9 @@ foreign key(customerid) references customers(id)
 ALTER TABLE orders
 ADD COLUMN OrderNumber int NOT NULL after OrderId ;
 ALTER TABLE student
-ADD COLUMN OrderNumber INT NOT NULL FIRST ;#The FIRST Keyword is used to add the column as the first column of the table
+ADD COLUMN OrderNumber INT NOT NULL FIRST ;
+#The FIRST Keyword is used to add the column as 
+#the first column of the table
 ALTER TABLE student
 drop column OrderNumber;
 
@@ -153,15 +155,6 @@ INSERT INTO Projects (ProjectID, ProjectName, StartDate, EndDate, Budget) VALUES
 (4, 'Project Delta', '2021-09-01', '2022-09-01', 1400000),
 (5, 'Project Epsilon', '2022-01-10', '2023-01-10', 1600000);
 
-SELECT e.EmployeeID, d.DepartmentName
-FROM employees e
-CROSS JOIN departments d;
-
-# INNER JOIN (Intersection) This query retrieves only the employees who have a valid department.
-SELECT e.EmployeeID,e.FirstName, d.DepartmentName,d.DepartmentID,d.ManagerID
-FROM employees e
-INNER JOIN departments d on e.EmployeeID=d.ManagerID;
-
 # Select required columns:
 
 
@@ -236,13 +229,16 @@ SELECT * FROM Employees WHERE FirstName LIKE 'R_vi';
 # Using % for wildcard matching in WHERE clause:
 
 SELECT * FROM Employees WHERE FirstName LIKE '%avi%';
+
 # Simple aggregation - SUM():
 
 SELECT SUM(Salary) AS TotalSalary FROM Employees;
 -- Simple aggregation - AVG():
 
 SELECT AVG(Salary) AS AverageSalary FROM Employees;
+-- The first query would return 5678.32.
 SELECT ROUND(AVG(Salary),2) AS AverageRoundedSalary FROM Employees;
+-- The second query would return 5679 (since CEIL(5678.32) is 5679).
 SELECT ceil(round(AVG(Salary),2)) AS AverageRoundedCeilSalary FROM Employees;
 SELECT MIN(Salary) AS MinimumSalary FROM Employees;
 -- Simple aggregation - MAX():
@@ -253,6 +249,7 @@ SELECT MAX(Salary) AS MaximumSalary FROM Employees;
 
 SELECT STR_TO_DATE('2021-01-15', '%Y-%m-%d') AS ConvertedDate;
 SELECT CAST(Salary AS CHAR) AS SalaryString FROM Employees;
+SELECT CAST('123.45' AS DECIMAL(5,2)) as coversion ;
 Describe employees;
 -- String function - LOWER():
 
@@ -263,6 +260,7 @@ SELECT LOWER(lastname) AS LowerFirstName FROM Employees where lastname is not nu
 SELECT UPPER(FirstName) AS UpperFirstName FROM Employees;
 -- String function - SUBSTRING():
 SELECT SUBSTRING(FirstName, 1, 3) AS SubFirstName FROM Employees;
+-- last 2 words 'SOMNATH SHARMA' becomes 'MA'
 SELECT SUBSTRING(FirstName,-2) AS SubFirstName FROM Employees;
 
 -- String function - REVERSE():
@@ -275,11 +273,15 @@ SELECT LENGTH(FirstName) AS FirstNameLength FROM Employees;
 SELECT ROUND(Salary, 1) AS RoundedSalary FROM Employees;
 -- String function - CHAR_LENGTH():
 
-SELECT CHAR_LENGTH(FirstName) AS FirstNameCharLength FROM Employees;
 
-SELECT firstname,POSITION('a' IN FirstName) AS PositionA FROM Employees;
+
+
+SELECT CHAR_LENGTH(FirstName) AS FirstNameCharLength FROM Employees;
 -- return the first non null values from left to right
+SELECT firstname,POSITION('a' IN FirstName) AS PositionA FROM Employees;
+
 -- if lastname is null put employee id
+-- Return the first non-null value in a list:
 SELECT employeeId,FirstName,LastName, COALESCE( LastName,employeeId) AS NonNullLastName FROM Employees;
 
 
@@ -296,40 +298,47 @@ FROM employees;
 -- CONCAT_WS(separator, expression1, expression2, expression3,...)
 SELECT CONCAT_WS('-', FirstName, LastName,Salary) AS FullName FROM Employees;
 SELECT CONCAT_WS('-',LastName, FirstName,Salary) AS FullName FROM Employees;
+-- Example: CONCAT_WS('-', 'Hello', 'World') results in "Hello-World"
 SELECT concat(CONCAT_WS('-',LastName, FirstName),'@gmail.com') AS FullName FROM Employees; -- if u dont want the separator check the above outut first
 SELECT CURDATE() AS CurrentDate;
+-- Add 10 days to a date and return the date:
 SELECT DATE_ADD(HireDate, INTERVAL 1 YEAR) AS NextYear FROM Employees;
+-- Subtract 1 month from a date and return the date:
 SELECT DATE_SUB(HireDate, INTERVAL 1 MONTH) AS PreviousMonth FROM Employees;
-
+-- 
 SELECT LEFT(FirstName, 2) AS FirstTwoChars FROM Employees;
 -- String function - RIGHT():
 
 SELECT RIGHT(FirstName, 2) AS LastTwoChars FROM Employees;
--- Math function - ABS(): The ABS() function returns the absolute (positive) value of a number.
+-- Math function - ABS(): 
+--The ABS() function returns the absolute (positive) value of a number.
+-- The absolute value of a number is its distance from zero on the number line, always resulting in a non-negative value.
+
+--ABS(-5) = 5
 SELECT ABS(-Salary) AS AbsoluteSalary FROM Employees;
+-- Returns the remainder of a division operation.
 SELECT MOD(Salary, 10000) AS SalaryMod FROM Employees;
 SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
 SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
 SELECT FirstName FROM Employees;
 SELECT DepartmentName FROM Departments;
-
-SELECT FirstName FROM Employees
-UNION
-SELECT DepartmentName FROM Departments;
--- Union All:
-SELECT FirstName FROM Employees
-UNION ALL
-SELECT DepartmentName FROM Departments;
--- The UNION operator selects only distinct values by default. To allow duplicate values, use UNION ALL:
--- The UNION operator is used to combine the result-set of two or more SELECT statements.
-
--- Every SELECT statement within UNION must have the same number of columns
--- The columns must also have similar data types
--- The columns in every SELECT statement must also be in the same order
-
-SELECT FIELD(Department, 'HR', 'IT', 'Finance') AS DepartmentOrder FROM Employees;
+SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
+-- String function - REPLACE():
+SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
 SELECT DATEDIFF(CURDATE(), HireDate) AS DaysSinceHire FROM Employees;
+
+
+-- FIELD(Department, 'HR', 'IT', 'Finance'): This is the core of the query.
+
+-- FIELD is a function that returns the index position of the first argument (Department) within the list of strings provided as subsequent arguments ('HR', 'IT', 'Finance').
+-- If Department matches 'HR', it returns 1.
+-- If it matches 'IT', it returns 2.
+-- If it matches 'Finance', it returns 3.
+-- If Department doesn't match any of the listed strings, it returns 0.
+SELECT FIELD(Department, 'HR', 'IT', 'Finance') AS DepartmentOrder FROM Employees;
+
 -- String function - FIELD():
+--CEIL(25.75)=26
 SELECT CEIL(Salary / 1000) * 1000 AS CeilSalary FROM Employees; -- remove decimals 6788.99 becomes 6789
 -- Math function - FLOOR():
 -- 62. String function - ASCII()
@@ -342,35 +351,18 @@ SELECT ASCII(FirstName) AS AsciiValue FROM Employees;
 -- SELECT UNHEX('52617669') AS UnhexValue;
 
 -- 65. String function - SPACE()
-SELECT CONCAT(FirstName, SPACE(5), LastName) AS FullNameWithSpace FROM Employees;
+SELECT CONCAT(FirstName, SPACE(5), LastName) AS FullNameWithSpace FROM Employees;-- 5 spaces
 
 
 
+-- floor(25.75)=25
+SELECT FLOOR(Salary / 1000) * 1000 AS FloorSalary FROM Employees;
 
--- SELECT FLOOR(Salary / 1000) * 1000 AS FloorSalary FROM Employees;
--- String function - REPEAT():
--- =
-
-SELECT REPEAT(FirstName, 2) AS RepeatedName FROM Employees;
--- String function - REPLACE():
-
-SELECT REPLACE(FirstName, 'a', 'A') AS ReplacedName FROM Employees;
--- CASE statements:
-
-
-SELECT FirstName,
-       Salary,
-       CASE
-           WHEN Salary > 70000 THEN 'High'
-           ELSE 'Low' 
-       END AS SalaryRange
-FROM Employees; 
-
--- 61. String function - FIND_IN_SET()
-SELECT FIND_IN_SET('IT', 'HR,IT,Finance') AS PositionInSet;
+-- 61. String function - FIND_IN_SET() 
+SELECT FIND_IN_SET('IT', 'HR,IT,Finance') AS PositionInSet; -- 2
 
 -- 66. String function - ELT()
-SELECT ELT(1, 'HR', 'IT', 'Finance') AS SecondElement;
+SELECT ELT(1, 'HR', 'IT', 'Finance') AS SecondElement; -- IT
 
 -- 67. Math function - PI()
 SELECT PI() AS PiValue;
@@ -425,6 +417,54 @@ SELECT REPLACE(FirstName, 'Ravi', 'Raj') AS ReplacedFirstName FROM Employees;
 SELECT REPLACE(Department, 'IT', 'Information Technology') AS ReplacedDepartment FROM Employees;
 -- 5. Replace all occurrences of 'Project' with 'Initiative' in the ProjectName column of the Projects table.
 SELECT REPLACE(ProjectName, 'Project', 'Initiative') AS ReplacedProjectName FROM Projects;
+
+
+
+-- CASE statements:
+SELECT FirstName,
+       Salary,
+       CASE
+           WHEN Salary > 70000 THEN 'High'
+           ELSE 'Low' 
+       END AS SalaryRange
+FROM Employees; -- if salary>70000 then high else low
+
+SELECT * from(
+       Select *,
+       CASE
+           WHEN Salary > 70000 THEN 'High'
+           WHEN Salary =68000 then  'Equal'
+           ELSE 'Low' 
+       END AS bucket
+FROM Employees ) e
+order by bucket ;
+
+--  Union clause works just like the Union operation in Set theory where the duplicate members appear only once in the resultant set.
+SELECT FirstName FROM Employees
+UNION
+SELECT DepartmentName FROM Departments;
+-- Union All:
+SELECT FirstName FROM Employees
+UNION ALL
+SELECT DepartmentName FROM Departments;
+-- The UNION operator selects only distinct values by default. To allow duplicate values, use UNION ALL:
+-- The UNION operator is used to combine the result-set of two or more SELECT statements.
+
+-- Every SELECT statement within UNION must have the same number of columns
+-- The columns must also have similar data types
+-- The columns in every SELECT statement must also be in the same order
+
+
+SELECT e.EmployeeID, d.DepartmentName
+FROM employees e
+CROSS JOIN departments d;
+
+# INNER JOIN (Intersection) This query retrieves only the employees who have a valid department.
+SELECT e.EmployeeID,e.FirstName, d.DepartmentName,d.DepartmentID,d.ManagerID
+FROM employees e
+INNER JOIN departments d on e.EmployeeID=d.ManagerID;
+
+
 -- Student Table
 
 CREATE TABLE Student (

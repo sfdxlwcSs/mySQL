@@ -1,0 +1,67 @@
+QL LIKE Queries with Different Patterns and Examples
+
+1. Starting with a Specific Character:
+
+Pattern: 'A%'
+Meaning: Matches any string that starts with the letter 'A'.
+Example:
+SQL
+
+SELECT * FROM customers WHERE customer_name LIKE 'A%';
+This query would select all customers whose names begin with the letter 'A'.
+2. Ending with a Specific Character:
+
+Pattern: '%A'
+Meaning: Matches any string that ends with the letter 'A'.
+Example:
+SQL
+
+SELECT * FROM products WHERE product_name LIKE '%A';
+This query would select all products whose names end with the letter 'A'.
+3. Containing a Specific Substring:
+
+Pattern: '%A%'
+Meaning: Matches any string that contains the letter 'A' anywhere within it.
+Example:
+SQL
+
+SELECT * FROM employees WHERE last_name LIKE '%Smith%';
+This query would select all employees whose last names contain the substring 'Smith'.
+4. Matching a Single Character:
+
+Pattern: '_A'
+Meaning: Matches any string where the second character is 'A'.
+Example:
+SQL
+
+SELECT * FROM cities WHERE city_name LIKE '_A%';
+This query would select all cities whose names have 'A' as the second character.
+The city name has atleast 2 character and any number of characters after A Ex:LA,BAngalore
+5. Matching Any Single Character:
+
+Pattern: 'A_'
+Meaning: Matches any string that starts with 'A' and has exactly one character following it.
+Example:
+SQL
+
+SELECT * FROM codes WHERE code LIKE 'A_';
+This query would select all codes that start with 'A' and have a length of two characters.
+6. Combining Patterns:
+
+You can combine these patterns to create more complex searches. For example:
+
+'A%B': Matches strings that start with 'A' and end with 'B'.
+Examples:
+
+"AppleB"
+"Amazing Band"
+
+'%A_B%': Matches strings that contain 'A', followed by any single character, followed by 'B'.
+Ex:'XAZB','123A1B'
+Important Notes:
+
+Case Sensitivity: The behavior of case sensitivity with LIKE can vary depending on the database system. Some systems are case-insensitive by default, while others are case-sensitive. You can often modify this behavior using database-specific settings or functions.
+Wildcard Characters: The % (percent sign) and _ (underscore) are wildcard characters. The % matches any sequence of zero or more characters, while the _ matches any single character.
+MySQL:
+
+Default Behavior: By default, MySQL performs case-insensitive string comparisons, including those using the LIKE operator. This means 'Apple' and 'apple' would be treated as equivalent in most cases.
