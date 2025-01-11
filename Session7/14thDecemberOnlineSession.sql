@@ -47,7 +47,7 @@ WHERE e.department_id = d.department_id
 select * from information_schema.views;
 
 
-# simple assgnment
+# simple assignment
 CREATE VIEW emp_view_complex_view
 AS
 SELECT e.employee_id,
@@ -78,7 +78,7 @@ WHERE e.department_id = d.department_id
 	AND c.region_id = r.region_id
 	AND j.job_id = e.job_id;
     
-    UPDATE emp_view_complex_view
+UPDATE emp_view_complex_view
 SET first_name = 'Ram'
 WHERE department_id = 90; # does  update the source emp_backup
 
