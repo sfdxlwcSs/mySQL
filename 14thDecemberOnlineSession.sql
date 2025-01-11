@@ -1,3 +1,5 @@
+-- View Session 6
+Use hr;
 create  table emp_backup
 as select * from employees
 

@@ -1,4 +1,5 @@
 create schema pt;
+use pt;
 CREATE TABLE departments (
 	department_id INT (11) UNSIGNED NOT NULL,
 	department_name VARCHAR(30) NOT NULL,
@@ -17,7 +18,7 @@ INSERT INTO departments VALUES (90,'Executive',100,1700	);
 
 
 CREATE TABLE employees (
-	employee_id INT (11) UNSIGNED NOT NULL,
+	employee_id INT  UNSIGNED NOT NULL,
 	first_name VARCHAR(20),
 	last_name VARCHAR(25) NOT NULL,
 	email VARCHAR(25) NOT NULL,
@@ -26,8 +27,8 @@ CREATE TABLE employees (
 	job_id VARCHAR(10) NOT NULL,
 	salary DECIMAL(8, 2) NOT NULL,
 	commission_pct DECIMAL(2, 2),
-	manager_id INT (11) UNSIGNED,
-	department_id INT (11) UNSIGNED,
+	manager_id INT  UNSIGNED,
+	department_id INT  UNSIGNED,
 	PRIMARY KEY (employee_id)
 	);
     
@@ -71,14 +72,14 @@ INSERT INTO employees VALUES (105,'David','Austin','DAUSTIN','590.423.4569',
 # if salary>10000 and <=50000 grade ii
 # if salary>50000 grade i "
 
-----Solution:
+-- Solution:
 	SELECT employee_id,
 	CASE 
      WHEN salary<=3000 THEN 'v'
     WHEN salary>=3000 and salary<=5000 THEN 'iv'
     WHEN salary>5000 and salary<=10000 then 'iii'
     WHEN salary>10000 and salary<=50000 then 'ii'
-     When salary>50000 then 'i'
+	WHEN salary>50000 then 'i'
 END as grade
 FROM employees;
 		
@@ -102,7 +103,7 @@ FROM employees;
     e.department_id;
     
         ------ 8. Display employee_id, first_name, salary, department_id for department_id 60 and 90 using Set operators. (2 Marks)
-----Solution:
+-- --Solution: ORDER BY 3 means that the result set will be sorted by the third column in the SELECT list.
 SELECT employee_id, first_name, salary,department_id
 FROM employees
 WHERE department_id=60
@@ -229,5 +230,17 @@ course_start_date date);
 --Refer to the schema of employees and departments
 --Create view emp_dept with employee_id,department_id,departmentname,salary,
 --commission,hiredate from employees and departments table
+
+Create View emp_dept
+AS
+Select e.employee_id empId,
+e.Salary empSalary,
+e.commission_pct empComm,
+e.hire_date empHiredOn,
+d.department_id depId,
+d.department_name depName
+from employees e,
+departments d
+Where e.department_id = d.department_id;
 
 
