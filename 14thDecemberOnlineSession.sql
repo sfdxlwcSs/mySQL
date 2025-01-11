@@ -102,5 +102,8 @@ SELECT * FROM hr.newview;
 # WITH CHECK OPTION
 # WILL NOT ALLOW DATA INSERTED OR UPDATED FOR ANYTHING THAT DOES NOT FOLLOW FILTER C0NDITION
 
+Alter table hr.emp_backup
+Add column first_name varchar(20);-- else u get error with view query
+
 
 
