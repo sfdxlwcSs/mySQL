@@ -83,9 +83,11 @@ INSERT INTO employees VALUES (105,'David','Austin','DAUSTIN','590.423.4569',
 END as grade
 FROM employees;
 		
------ 5. Display the First Name, Job ID and the Hire Date of all the employees who have the same joining date(3 Mark)"
-----Solution:
-		select e1.first_name, e1.job_id,e1.hire_date 	from employees e1 join employees e2
+-- --- 5. Display the First Name, Job ID and the Hire Date of all the employees who have the same joining date(3 Mark)"
+-- --Solution:
+		select e1.first_name, e1.job_id,e1.hire_date 	
+        from employees e1 
+        join employees e2
 		where e1.employee_id!=e2.employee_id
 		and e1.hire_date=e2.hire_date;
   
@@ -115,13 +117,13 @@ ORDER BY 3;
 select * from employees;
 
 ----- 9. Display 2th highest salary of employee using subquery . (3 Mark)"
-----Solution:
+-- --Solution:
 select min(salary ) 
 from (select salary from employees order by salary desc limit 2)a;
 
 
-----10. Write a query to fetch the employee ID, First Name, Last Name, Salary and Department ID of those employees who draw a salary more than the average salary of their respective department. (2 Mark)
-----Solution:
+-- --10. Write a query to fetch the employee ID, First Name, Last Name, Salary and Department ID of those employees who draw a salary more than the average salary of their respective department. (2 Mark)
+-- --Solution:
 	SELECT employee_id, first_name, last_name,salary,department_id
 	FROM employees e
 	WHERE salary > ANY  (SELECT avg(salary)

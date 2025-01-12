@@ -1,12 +1,13 @@
+Use  hr;
 select avg(Salary) from employees;
 SELECT * FROM employees where Salary < 
-(select avg(Salary) from employees);
+(select avg(Salary) from employees);-- Emp wit Salary less than average Salary
 
 Select * from employees where Salary < (
 Select avg(salary)
 from employees e join departments d
 on e.department_id=d.department_id
-where d.department_name='Administration');
+where d.department_name='Administration');-- The query finds all employees whose salary is less than the average salary of employees in the 'Administration' department.
 
 select max(Salary),job_id from employees 
 group by(job_id);
@@ -21,11 +22,13 @@ e.job_id=j.job_id
 group by job_id) as temp_data
 where emp.job_id=temp_data.job_id
 and emp.salary=temp_data.max_salary;
+# The query first determines the maximum salary for each job title. Then, it selects all employees who earn that maximum salary for their respective jobs. The result is a list of employees who are the highest earners in their job categories.
 
 
 select  e.job_id,max(e.Salary) as max_salary,
 j.job_title
-from employees e join jobs j on
+from employees e 
+join jobs j on
 e.job_id=j.job_id
 group by job_id;
 # ************************************************************
@@ -196,6 +199,8 @@ INSERT INTO PROFIT_LOSS (Branch, Product, Estimated_profit) VALUES
  tran_date=(select max(event_dt) from
  message where event='Holiday');
  
+ 
+ 
  select * from account where acct_num in(
  Select acct_num from transaction where channel='ATM Withdrawal'); # slower than joins in clause
  
@@ -217,7 +222,7 @@ select * from account a where  exists (
  ); 
  #  GROUP BY t.acct_num
 #     HAVING COUNT(*) >= 2
- 
+ -- Any ALL SOME
  select * from transaction where tran_date > ANY
  (
  Select Event_Dt from message where event='Holiday'
@@ -243,7 +248,7 @@ on t.tran_date =m.event_dt
 and m.event='Holiday') as temp
 on a.acct_num=temp.acct_num;
 
-# WITH USE
+# WITH USE Subqueries with the ‘WITH’ Clause
  
 with temp as (select acct_num,
 trans_id,tran_Date,tran_Amount from 

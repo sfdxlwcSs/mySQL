@@ -1,4 +1,7 @@
 create database MtechJuly2024_banking_Class;
+
+use MtechJuly2024_banking_Class;
+
 CREATE TABLE customer_details (
     customer_id VARCHAR(10) PRIMARY KEY,
     first_name VARCHAR(50) NOT NULL,
@@ -93,7 +96,9 @@ VALUES ('ACC0000011', 'CUST999', 'SAVINGS', 1200.00);
 INSERT INTO customer_details (customer_id, first_name, last_name, gender, email, phone_number, address, postal_code)
 VALUES
 ('CUST999', 'Somnath', 'Reddy', 'M', 'Somnath.reddy@example.com', '7876543210', '1233 MEG Road', '560100');
+
 delete from customer_details where customer_id='CUST999';
+
 INSERT INTO customer_details (customer_id, first_name, last_name, gender, email, phone_number, address, postal_code)
 VALUES ('CUST011', 'Karan', 'Singh', 'M', 'karan.singhexample.com', '9876543211', '808 Koramangala', '560011');
 -- fix 
@@ -145,8 +150,9 @@ SELECT
         WHEN amount BETWEEN 100 AND 500 THEN 'Medium'
         WHEN amount > 500 THEN 'High'
         ELSE 'Unknown'
-           END AS amount_category
+		END AS amount_category
 FROM transaction;
+
 -- even inside aggregate queries we can write case statement -PIVOT COLUMN
 SELECT
     transaction_type,

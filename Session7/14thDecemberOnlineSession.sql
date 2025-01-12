@@ -88,16 +88,20 @@ WHERE department_id = 90; # view does  get updated
 
 # A horizontal view refers to a view that filters rows based on specific conditions. 
 # It is often used to restrict access to certain rows in a table while presenting the same column structure.
+
 CREATE VIEW department_10_employees AS
 SELECT employee_id, first_name, last_name, department_id, salary
 FROM employees
 WHERE department_id = 10;
+
 CREATE VIEW newview AS
 SELECT employee_id, first_name, last_name, department_id
 from emp_backup;
+
 ALTER TABLE hr.emp_backup
 DROP COLUMN first_name; 
 #  after this if u do this u get error references invalid table
+
 SELECT * FROM hr.newview;
 # WITH CHECK OPTION
 # WILL NOT ALLOW DATA INSERTED OR UPDATED FOR ANYTHING THAT DOES NOT FOLLOW FILTER C0NDITION

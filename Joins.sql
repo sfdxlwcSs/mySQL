@@ -1,3 +1,5 @@
+
+Use DATABASE HR;
 #inner join -- This will succeed
 
 SELECT e.employee_name, d.department_name
@@ -42,6 +44,8 @@ natural join departments ;-- note this works when column name ,in such case we d
 
 select * from locations
 cross join departments ;
+ -- Full outer Joins helps to retrieve combination of LEFT and RIGHT join
+ -- results○Retrieve result set of ALL active accounts in Bank from LEFT JOIN○Retrieve result set of ALL transactions in Bank from RIGHT JOIN-Refer Notes Great Learning
 
 
 

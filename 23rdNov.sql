@@ -1,4 +1,5 @@
-
+use session5;
+-- Subqueries with the ‘WITH’ Clause
 # In SQL, the WITH clause (also known as Common Table Expressions (CTEs)) is used to define temporary result sets that can be referred to within a SELECT, INSERT, UPDATE, or DELETE statement. These temporary tables are only available for the duration of the query,
 # and they help make complex queries more readable and manageable.
 Select Acct_Num ,Acct_type from account;
@@ -66,8 +67,12 @@ CREATE TABLE dependents (
 );
 use hr;
 select * from dependents;
+-- This SQL query retrieves all information about employees who have dependents.
 select * from employees where employee_id in ( 
 select  distinct employee_id from dependents );
+# DISTINCT: This keyword ensures that only unique employee_id values are returned.
+#  This is important because an employee might have multiple dependents, 
+# and we only need their employee_id once to identify them in the outer query.
 SELECT first_name, last_name
 FROM employees e
 WHERE EXISTS (
@@ -109,7 +114,7 @@ WHERE not exists (
     WHERE e.employee_id = dep.employee_id
 ); 
 
-# Session 6
+# Session 6 Advanced Aggregate Functions and Data Integrity If you don't use a PARTITION BY clause, the entire result set is treated as a single partition. RANK() assigns ranks based on the ORDER BY clause across all rows.
 
 Select employee_id,salary,rank() over ( order  by salary desc)
 from employees; # if 2 people have same rank for ex 17000 2 have salary so both got 2 ,so next rank will be 4 no 3rd rank
