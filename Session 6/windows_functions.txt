@@ -1,3 +1,8 @@
+YOUTUBE EXPLANATIONS--
+IN SECOND LINK EXPLORE DIFEERENCE BETWEEN RANGR AND ROW WHEN USED WITH FIRST_VALUE() AND LAST_VALUE() THE DIFFERENCE
+https://www.youtube.com/watch?v=Ww71knvhQ-s
+https://www.youtube.com/watch?v=zAmJPdZu8Rg
+
 LAG: Tracking Past Transactions
 Question: What was each customer's previous transaction amount?
 Use Case: Suppose you want to flag unusual spending patterns, like consecutive large withdrawals. LAG can help by showing the previous transaction amount alongside each current one. By comparing the last and current transactions, you could identify patterns of rapid balance decline or growth.
