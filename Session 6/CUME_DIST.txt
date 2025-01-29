@@ -1,0 +1,13 @@
+Cumulative Distribution and Standard Deviation: Explained Simply
+Cumulative Distribution (CDF): Imagine you're playing a game where you can win a certain amount of money. The cumulative distribution tells you the chance of winning up to a specific amount.
+ * Example: If the CDF for winning $50 is 0.7, it means there's a 70% chance of winning $50 or less.
+Standard Deviation (SD): This measures how spread out the data is. A higher SD means the data is more spread out, while a lower SD means it's more clustered around the average.
+ * Example: If you're measuring the heights of students in a class, a high SD means there's a wide range of heights, while a low SD means most students have similar heights.
+In a nutshell:
+ * CDF: Tells you the probability of getting a value up to a certain point.
+ * SD: Tells you how spread out the data is.
+Here's a visual representation:
+Key points to remember:
+ * The CDF always increases from 0 to 1.
+ * The SD is always positive.
+ * A higher SD means more variability in the data.
