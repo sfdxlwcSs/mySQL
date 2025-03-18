@@ -63,6 +63,72 @@ SHOW COLUMNS FROM placementData;
 ALTER TABLE placementData 
 MODIFY COLUMN PlacementStatus ENUM('Placed', 'NotPlaced') NOT NULL; -- import was failing
 
+--  basic statistics 
+-- Count the Total Number of Students
+SELECT COUNT(*) AS TotalStudents FROM studentdetails;
+
+-- Count the Total Number of Placements
+SELECT COUNT(*) AS TotalPlacements 
+FROM placementdata 
+WHERE PlacementStatus = 'Placed';
+
+-- Find the  Average, Min, and Max of CGPA
+SELECT 
+    AVG(CGPA) AS AverageCGPA,
+    MIN(CGPA) AS MinCGPA,
+    MAX(CGPA) AS MaxCGPA
+FROM placementdata;
+
+-- Find the  Average, Min, and Max of SSC and HSC Marks
+
+SELECT 
+    
+    AVG(SSC_Marks) AS AvgSSCMarks,
+    MIN(SSC_Marks) AS MinSSCMarks,
+    MAX(SSC_Marks) AS MaxSSCMarks,
+    SUM(HSC_Marks) AS TotalHSCMarks,
+    AVG(HSC_Marks) AS AvgHSCMarks,
+    MIN(HSC_Marks) AS MinHSCMarks,
+    MAX(HSC_Marks) AS MaxHSCMarks
+FROM placementdata;
+
+--  Find the  Average, Min, and Max of Salary Package in Job Offers
+SELECT 
+    
+    AVG(SalaryPackage) AS AvgSalary,
+    MIN(SalaryPackage) AS MinSalary,
+    MAX(SalaryPackage) AS MaxSalary
+FROM joboffers;
+
+-- Count the Number of Students Who Got Multiple Job Offers
+
+SELECT StudentID, COUNT(*) AS OfferCount
+FROM joboffers
+GROUP BY StudentID
+HAVING COUNT(*) > 1;
+
+
+-- Find the Minimum and Maximum Aptitude Test Score
+
+SELECT 
+    MIN(AptitudeTestScore) AS MinAptitudeScore,
+    MAX(AptitudeTestScore) AS MaxAptitudeScore,
+    AVG(AptitudeTestScore) AS AvgAptitudeScore
+FROM placementdata;
+
+
+ALTER TABLE placementdata
+ADD DegreeAwarded  VARCHAR(100);
+
+UPDATE placementdata
+SET DegreeAwarded = 'FCD', City = 'Frankfurt'
+WHERE CustomerID = 1; -- work in progress
+
+
+
+
+
+
 
 
 
