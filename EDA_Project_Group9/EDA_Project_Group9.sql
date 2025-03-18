@@ -28,6 +28,7 @@ CREATE TABLE PlacementData (
     FOREIGN KEY (StudentID) REFERENCES StudentDetails(StudentID)
 );
 
+
 CREATE TABLE CompanyDetails (
     CompanyID INT PRIMARY KEY,
     CompanyName VARCHAR(100),
@@ -58,6 +59,14 @@ ON DELETE CASCADE;  -- Deletes placement record if student is removed
 
 Describe studentDetails;
 SHOW COLUMNS FROM placementData;
+
+ALTER TABLE placementData 
+MODIFY COLUMN PlacementStatus ENUM('Placed', 'NotPlaced') NOT NULL; -- import was failing
+
+
+
+
+
 
 
 
