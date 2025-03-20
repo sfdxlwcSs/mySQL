@@ -123,7 +123,7 @@ FROM placementdata;
 ALTER TABLE placementdata
 ADD DegreeAwarded  VARCHAR(100);
 
--- GET GOLD MEDALLIST  OFFERED STATUS
+-- GET FCD HOLDERS  OFFERED STATUS
 
 UPDATE placementdata
 SET DegreeAwarded =
@@ -137,9 +137,23 @@ SET DegreeAwarded =
     END; 
 
 Select * From joboffers
-Where StudentId IN(Select StudentId 
+Where StudentId IN(
+Select StudentId 
 From placementdata
-Where DegreeAwarded='FCD')    
+Where DegreeAwarded='FCD') 
+AND OfferStatus IN('Pending','Not Placed');   -- There are FCD holders who have not got placed or have job offers pending
+
+-- DATA CLEANSING NEXT
+
+
+
+
+-- GROUP BY QUERIES NEXT
+
+
+-- ***SOMNATH ***---
+
+ 
 
 
     
