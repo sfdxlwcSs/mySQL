@@ -48,6 +48,11 @@ CREATE TABLE JobOffers (
     FOREIGN KEY (CompanyID) REFERENCES CompanyDetails(CompanyID)
 );
 
+Alter Table joboffers
+Modify column CompanyID INT NULL, -- Allowing NULLs in a foreign key column is a valid here so to demonstrate data cleaning
+-- A student even though not place will have an entry in joboffers table
+Modify column OfferStatus ENUM( 'Not Placed','Accepted', 'Rejected', 'Pending') NOT NULL;
+
 ALTER TABLE PlacementData  
 MODIFY StudentID INT NOT NULL;
 -- Ensure Every Student Must Have a Placement Record
@@ -82,11 +87,9 @@ FROM placementdata;
 -- Find the  Average, Min, and Max of SSC and HSC Marks
 
 SELECT 
-    
     AVG(SSC_Marks) AS AvgSSCMarks,
     MIN(SSC_Marks) AS MinSSCMarks,
     MAX(SSC_Marks) AS MaxSSCMarks,
-    SUM(HSC_Marks) AS TotalHSCMarks,
     AVG(HSC_Marks) AS AvgHSCMarks,
     MIN(HSC_Marks) AS MinHSCMarks,
     MAX(HSC_Marks) AS MaxHSCMarks
@@ -120,10 +123,28 @@ FROM placementdata;
 ALTER TABLE placementdata
 ADD DegreeAwarded  VARCHAR(100);
 
-UPDATE placementdata
-SET DegreeAwarded = 'FCD', City = 'Frankfurt'
-WHERE CustomerID = 1; -- work in progress
+-- GET GOLD MEDALLIST  OFFERED STATUS
 
+UPDATE placementdata
+SET DegreeAwarded =
+    CASE 
+        WHEN CGPA > 9 THEN 'GOLD MEDALLIST'
+        WHEN CGPA > 8 AND CGPA < 9 THEN 'FCD'
+        WHEN CGPA >= 7.5 AND CGPA <=8  THEN 'FCD'
+        WHEN CGPA >= 6 AND CGPA < 7.5 THEN 'FC'
+        WHEN CGPA > 4 AND CGPA < 6 THEN 'SC'
+        ELSE 'FAIL'
+    END; 
+
+Select * From joboffers
+Where StudentId IN(Select StudentId 
+From placementdata
+Where DegreeAwarded='FCD')    
+
+
+    
+        
+    
 
 
 
