@@ -216,11 +216,84 @@ FROM placementdata
 GROUP BY Internships, PlacementStatus
 ORDER BY Internships DESC;
 
+-- Group on the basis of job role
+
+Select JobRole ,count(studentId) AS StudentCount
+from joboffers
+group by JobRole;
+
 -- Group by Workshops/Certifications
 SELECT Workshops_Certifications, PlacementStatus, COUNT(*) AS Count
 FROM placementdata
 GROUP BY Workshops_Certifications, PlacementStatus
 ORDER BY Workshops_Certifications DESC;
+
+-- Group on the basis of Compnay names
+
+SELECT c.CompanyName, COUNT(j.StudentID) AS StudentCount
+FROM joboffers j
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+GROUP BY c.CompanyName
+ORDER BY StudentCount DESC;
+
+-- Group on the basis gender and display max and min Salary offered
+SELECT s.Gender, 
+       MAX(j.SalaryPackage) AS MaxSalary, 
+       MIN(j.SalaryPackage) AS MinSalary
+FROM joboffers j
+JOIN studentdetails s ON j.StudentID = s.StudentID
+GROUP BY s.Gender;
+
+-- Similarly avg salary gender wise
+SELECT s.Gender, 
+       AVG(j.SalaryPackage) AS AvgSalary 
+FROM joboffers j
+JOIN studentdetails s ON j.StudentID = s.StudentID
+GROUP BY s.Gender; -- Gender neutral salary
+
+-- avg min and max salary Socio economic status wise
+SELECT s.SocioEconomicStatus, 
+       AVG(j.SalaryPackage) AS AvgSalary,
+       MAX(j.SalaryPackage) AS MaxSalary, 
+       MIN(j.SalaryPackage) AS MinSalary
+FROM joboffers j
+JOIN studentdetails s ON j.StudentID = s.StudentID
+GROUP BY s.SocioEconomicStatus 
+Order by AvgSalary desc; -- Gender neutral salary
+-- grouping on basis of placement staus and infer students acpa and aptitude test score
+SELECT placementStatus, 
+       Count(StudentID) AS StudentCount,
+       AVG(cgpa) AS AvgCGPA, 
+       AVG(AptitudeTestScore) AS AvgAptitudeScore
+FROM placementdata 
+GROUP BY placementStatus;
+
+SELECT 
+    (COUNT(CASE WHEN PlacementStatus = 'Placed' THEN 1 END) * 100.0 / COUNT(StudentID)) AS PlacementPercentage
+FROM placementdata;
+
+
+
+
+-- Grouping Students on the basis of Social economic status ,degree awarded,job offers
+
+SELECT 
+    s.SocioEconomicStatus, 
+    p.DegreeAwarded,
+    COUNT(j.StudentID) AS OfferCount,  -- Count of job offers
+    AVG(j.SalaryPackage) AS AvgSalary  -- Average salary for the group
+FROM studentdetails s
+JOIN placementdata p ON s.StudentID = p.StudentID
+LEFT JOIN joboffers j ON s.StudentID = j.StudentID
+GROUP BY s.SocioEconomicStatus, p.DegreeAwarded
+ORDER BY OfferCount DESC; -- Sort to see the most offers first
+
+
+
+
+
+--
+
 
 
  
