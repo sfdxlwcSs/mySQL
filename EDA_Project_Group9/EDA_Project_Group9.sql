@@ -106,13 +106,13 @@ GROUP BY StudentID
 HAVING COUNT(*) > 1;
 
 
--- Find the Minimum and Maximum Aptitude Test Score
+-- Find the Minimum and Maximum Aptitude Test Score for placed students
 
 SELECT 
     MIN(AptitudeTestScore) AS MinAptitudeScore,
     MAX(AptitudeTestScore) AS MaxAptitudeScore,
     AVG(AptitudeTestScore) AS AvgAptitudeScore
-FROM placementdata;
+FROM placementdata where PlacementStatus='Placed';
 
 
 ALTER TABLE placementdata
@@ -169,22 +169,62 @@ Alter Table companydetails
 ADD UNIQUE (CompanyName);
 
 -- Add constraints
--- Ensure Every Student Must Have a Placement Record
+--  delete the rows from the child table automatically, when the rows from the parent table are deleted
 
 ALTER TABLE PlacementData  
 ADD CONSTRAINT fk_student FOREIGN KEY (StudentID)  
 REFERENCES StudentDetails(StudentID)  
 ON DELETE CASCADE;  -- Deletes placement record if student is removed
 
+ALTER TABLE joboffers
+ADD constraint   fk_StudentDelete foreign key(StudentID)
+References StudentDetails(StudentID)  
+ON DELETE CASCADE; -- Deletes joboffers record if student is removed
 
-
-
-
- 
+ALTER TABLE joboffers
+ADD constraint   fk_CompanyDelete foreign key(CompanyID)
+References companydetails(CompanyID)  
+ON DELETE CASCADE; -- Deletes joboffers record if companyrecord is removed
 
 
 
 -- GROUP BY QUERIES NEXT
+
+-- Group Student on the basis Gender
+ Select count(1),Gender 
+ From studentdetails
+ Group by Gender;
+ 
+ -- Group By Scholarship Status
+  Select count(1) ,ScholarshipStatus 
+ From studentdetails
+ Group by ScholarshipStatus;
+ 
+ -- Group on the basis of degree
+  Select count(1) ,DegreeAwarded 
+ From placementdata
+ Group by DegreeAwarded Order By DegreeAwarded Desc;
+
+-- Group By Degree Awarded and Placement Status 
+ Select DegreeAwarded ,PlacementStatus , COUNT(*) AS Count
+ From placementdata
+ Group by PlacementStatus,DegreeAwarded Order By DegreeAwarded Desc;
+ 
+ --  Group by Internship Experience
+ SELECT Internships, PlacementStatus, COUNT(*) AS Count
+FROM placementdata
+GROUP BY Internships, PlacementStatus
+ORDER BY Internships DESC;
+
+-- Group by Workshops/Certifications
+SELECT Workshops_Certifications, PlacementStatus, COUNT(*) AS Count
+FROM placementdata
+GROUP BY Workshops_Certifications, PlacementStatus
+ORDER BY Workshops_Certifications DESC;
+
+
+ 
+
 
 
 -- ***SOMNATH ***---
