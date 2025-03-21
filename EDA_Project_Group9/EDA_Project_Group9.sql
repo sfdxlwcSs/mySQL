@@ -144,11 +144,22 @@ Where DegreeAwarded='FCD')
 AND OfferStatus IN('Pending','Not Placed');   -- There are FCD holders who have not got placed or have job offers pending
 
 -- DATA CLEANSING NEXT
--- Placementdata table is the table tat hold information if a student has been placed or not
+-- Placementdata table is the table tat holds the final information if a student has been placed or not
 -- chances are data in joboffer table is not correct
 -- a student who is not placed as per placement datatable may have been marked placed or offer pending in job offers table 
 -- Lets clean that
+Select * from joboffers
+Where studentId IN(
+Select studentId from placementdata
+where PlacementStatus='NotPlaced'); -- We see 6389 rows of data in joboffers table which is not correct
+-- Any inference drawn will not be correct if these data is not cleaned up.
 
+Delete  FROM joboffers
+Where studentId IN(
+Select studentId from placementdata
+where PlacementStatus='NotPlaced');
+
+ 
 
 
 
