@@ -366,6 +366,37 @@ GROUP BY c.CompanyName
 ORDER BY AvgSalary DESC
 LIMIT 3;
 
+-- Find the Average CGPA by Industry Type (Using CTE)
+WITH AvgCGPAByIndustry AS (
+    SELECT 
+        c.IndustryType,
+        AVG(p.CGPA) AS Avg_CGPA
+    FROM 
+        companydetails c
+    JOIN 
+        joboffers j ON c.CompanyID = j.CompanyID
+    JOIN 
+        placementdata p ON j.StudentID = p.StudentID
+    GROUP BY 
+        c.IndustryType
+)
+SELECT 
+    IndustryType,
+    Avg_CGPA
+FROM 
+    AvgCGPAByIndustry;
+
+-- Find Students Who Have a Higher CGPA Than the Average CGPA( Sub Quarry)
+SELECT 
+    s.StudentID,
+    s.Name,
+    p.CGPA
+FROM 
+    studentdetails s
+JOIN 
+    placementdata p ON s.StudentID = p.StudentID
+WHERE 
+    p.CGPA > (SELECT AVG(CGPA) FROM placementdata);
 
  
 
