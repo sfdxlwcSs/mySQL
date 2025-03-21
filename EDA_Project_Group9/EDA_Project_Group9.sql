@@ -70,7 +70,7 @@ SELECT COUNT(*) AS TotalStudents FROM studentdetails;
 -- Count the Total Number of Placements
 SELECT COUNT(*) AS TotalPlacements 
 FROM placementdata 
-WHERE PlacementStatus = 'Placed';
+WHERE PlacementStatus = 'NotPlaced';
 
 -- Find the  Average, Min, and Max of CGPA
 SELECT 
@@ -302,7 +302,7 @@ ORDER BY OfferCount DESC; -- Sort to see the most offers first
 
 -- ***SOMNATH ***---
 
-*** SUMANTH---
+-- *** SUMANTH---
 
 -- Use window functions to perform calculations across a set of table rows related to the current row.
 
@@ -313,7 +313,7 @@ SELECT
     p.CGPA,
     RANK() OVER (ORDER BY p.CGPA DESC) AS CGPA_Rank -- Assign rank order by Cgpa
 FROM 
-    student_details s
+    studentdetails s
 JOIN 
     placementdata p ON s.StudentID = p.StudentID;
 
@@ -324,9 +324,9 @@ SELECT
     j.SalaryPackage,
     AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) AS Avg_Salary -- avaerage salary can partition by companeyID
 FROM 
-    job_offers_updated j
+    joboffers j
 JOIN 
-    company_details c ON j.CompanyID = c.CompanyID;
+    companydetails c ON j.CompanyID = c.CompanyID;
 
 -- Identify the Latest Offer for Each Student
 SELECT 
@@ -335,7 +335,49 @@ SELECT
     j.SalaryPackage,
     ROW_NUMBER() OVER (PARTITION BY j.StudentID ORDER BY j.OfferID DESC) AS LatestOffer -- Job offers partition by studentID
 FROM 
-     job_offers_updated j;
+     joboffers j;
+     
+     
+     -- Rakshitha -- ------------------------------Joins and Relationships-----------------------------------
+
+-- Find students who received job offers, along with company names and salary packages.
+SELECT s.StudentID, s.Name, j.JobRole, c.CompanyName, j.SalaryPackage, j.OfferStatus
+FROM joboffers j
+JOIN studentdetails s ON j.StudentID = s.StudentID
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+ORDER BY j.SalaryPackage DESC;
+
+-- Students Who Haven't Received Any Job Offers
+SELECT s.StudentID, s.Name, d.CompanyName,p.CGPA, 'Not Placed' PlacementStatus,j.OfferID
+FROM joboffers j 
+RIGHT JOIN studentdetails s ON s.StudentID = j.StudentID
+JOIN placementdata p ON s.StudentID = p.StudentID
+left JOIN companydetails d on j.CompanyID = d.CompanyID and s.StudentID = j.StudentID
+WHERE j.OfferID IS NULL;
+
+SELECT count(s.StudentID)
+FROM joboffers j 
+RIGHT JOIN studentdetails s ON s.StudentID = j.StudentID
+JOIN placementdata p ON s.StudentID = p.StudentID
+left JOIN companydetails d on j.CompanyID = d.CompanyID and s.StudentID = j.StudentID
+WHERE j.OfferID IS NULL;
+
+-- Companies Hiring the Most Students
+SELECT c.CompanyName, COUNT(j.OfferID) AS TotalHires
+FROM joboffers j
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+WHERE j.OfferStatus = 'Accepted'
+GROUP BY c.CompanyName
+ORDER BY TotalHires DESC;
+
+-- Find companies offering the highest average salary.
+SELECT c.CompanyName, AVG(j.SalaryPackage) AS AvgSalary
+FROM joboffers j
+INNER JOIN companydetails c ON j.CompanyID = c.CompanyID
+GROUP BY c.CompanyName
+ORDER BY AvgSalary DESC
+LIMIT 3;
+
 
  
 
