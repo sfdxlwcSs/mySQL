@@ -304,17 +304,38 @@ ORDER BY OfferCount DESC; -- Sort to see the most offers first
 
 *** SUMANTH---
 
--- Use window functions to perform calculations across a set of table rows related to the current row
--- Calculate the Average Salary for Each Company (Partition by Company)
+-- Use window functions to perform calculations across a set of table rows related to the current row.
+
+-- Rank Students Based on CGPA
+SELECT 
+    s.StudentID,
+    s.Name,
+    p.CGPA,
+    RANK() OVER (ORDER BY p.CGPA DESC) AS CGPA_Rank -- Assign rank order by Cgpa
+FROM 
+    student_details s
+JOIN 
+    placementdata p ON s.StudentID = p.StudentID;
+
+ -- Calculate the Average Salary for Each Compan
 SELECT 
     j.StudentID,
     c.CompanyName,
     j.SalaryPackage,
-    AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) AS Avg_Salary
+    AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) AS Avg_Salary -- avaerage salary can partition by companeyID
 FROM 
-    joboffers j
+    job_offers_updated j
 JOIN 
-    companydetails c ON j.CompanyID = c.CompanyID;
+    company_details c ON j.CompanyID = c.CompanyID;
+
+-- Identify the Latest Offer for Each Student
+SELECT 
+    j.StudentID,
+    j.CompanyID,
+    j.SalaryPackage,
+    ROW_NUMBER() OVER (PARTITION BY j.StudentID ORDER BY j.OfferID DESC) AS LatestOffer -- Job offers partition by studentID
+FROM 
+     job_offers_updated j;
 
  
 
