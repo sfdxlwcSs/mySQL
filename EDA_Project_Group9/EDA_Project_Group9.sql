@@ -70,7 +70,7 @@ SELECT COUNT(*) AS TotalStudents FROM studentdetails;
 -- Count the Total Number of Placements
 SELECT COUNT(*) AS TotalPlacements 
 FROM placementdata 
-WHERE PlacementStatus = 'NotPlaced';
+WHERE PlacementStatus = 'Placed';
 
 -- Find the  Average, Min, and Max of CGPA
 SELECT 
@@ -273,8 +273,6 @@ SELECT
 FROM placementdata;
 
 
-
-
 -- Grouping Students on the basis of Social economic status ,degree awarded,job offers
 
 SELECT 
@@ -287,16 +285,6 @@ JOIN placementdata p ON s.StudentID = p.StudentID
 LEFT JOIN joboffers j ON s.StudentID = j.StudentID
 GROUP BY s.SocioEconomicStatus, p.DegreeAwarded
 ORDER BY OfferCount DESC; -- Sort to see the most offers first
-
-
-
-
-
---__________
-
-
-
- 
 
 
 
