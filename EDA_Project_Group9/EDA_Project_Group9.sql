@@ -302,6 +302,20 @@ ORDER BY OfferCount DESC; -- Sort to see the most offers first
 
 -- ***SOMNATH ***---
 
+*** SUMANTH---
+
+-- Use window functions to perform calculations across a set of table rows related to the current row
+-- Calculate the Average Salary for Each Company (Partition by Company)
+SELECT 
+    j.StudentID,
+    c.CompanyName,
+    j.SalaryPackage,
+    AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) AS Avg_Salary
+FROM 
+    joboffers j
+JOIN 
+    companydetails c ON j.CompanyID = c.CompanyID;
+
  
 
 
