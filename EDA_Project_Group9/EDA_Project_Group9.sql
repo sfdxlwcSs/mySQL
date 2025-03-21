@@ -144,6 +144,10 @@ Where DegreeAwarded='FCD')
 AND OfferStatus IN('Pending','Not Placed');   -- There are FCD holders who have not got placed or have job offers pending
 
 -- DATA CLEANSING NEXT
+-- Placementdata table is the table tat hold information if a student has been placed or not
+-- chances are data in joboffer table is not correct
+-- a student who is not placed as per placement datatable may have been marked placed or offer pending in job offers table 
+-- Lets clean that
 
 
 
