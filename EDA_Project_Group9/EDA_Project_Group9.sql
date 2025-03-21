@@ -163,6 +163,11 @@ ALTER TABLE joboffers
 MODIFY CompanyID INT NOT NULL,
 MODIFY SalaryPackage INT NOT NULL;
 
+
+-- Make company Name is UNIQUE in company Details 
+Alter Table companydetails
+ADD UNIQUE (CompanyName);
+
 -- Add constraints
 -- Ensure Every Student Must Have a Placement Record
 
