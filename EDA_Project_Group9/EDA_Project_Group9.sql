@@ -55,12 +55,7 @@ Modify column OfferStatus ENUM( 'Not Placed','Accepted', 'Rejected', 'Pending') 
 
 ALTER TABLE PlacementData  
 MODIFY StudentID INT NOT NULL;
--- Ensure Every Student Must Have a Placement Record
 
-ALTER TABLE PlacementData  
-ADD CONSTRAINT fk_student FOREIGN KEY (StudentID)  
-REFERENCES StudentDetails(StudentID)  
-ON DELETE CASCADE;  -- Deletes placement record if student is removed
 
 Describe studentDetails;
 SHOW COLUMNS FROM placementData;
@@ -158,6 +153,27 @@ Delete  FROM joboffers
 Where studentId IN(
 Select studentId from placementdata
 where PlacementStatus='NotPlaced');
+-- With the above operation being performed null values in companyid and SalaryPackage has been handled.
+
+ALTER TABLE joboffers  
+MODIFY StudentID INT NOT NULL;
+
+-- Ensure data consistency make Foreing key not null 
+ALTER TABLE joboffers  
+MODIFY CompanyID INT NOT NULL,
+MODIFY SalaryPackage INT NOT NULL;
+
+-- Add constraints
+-- Ensure Every Student Must Have a Placement Record
+
+ALTER TABLE PlacementData  
+ADD CONSTRAINT fk_student FOREIGN KEY (StudentID)  
+REFERENCES StudentDetails(StudentID)  
+ON DELETE CASCADE;  -- Deletes placement record if student is removed
+
+
+
+
 
  
 
