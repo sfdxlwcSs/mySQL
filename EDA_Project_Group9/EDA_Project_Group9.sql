@@ -243,6 +243,13 @@ SELECT s.Gender,
 FROM joboffers j
 JOIN studentdetails s ON j.StudentID = s.StudentID
 GROUP BY s.Gender;
+-- Did scholarship play a role in placement
+SELECT s.ScholarshipStatus, 
+       count(j.OfferID) AS offerCount
+FROM joboffers j
+JOIN studentdetails s ON j.StudentID = s.StudentID
+Where j.OfferStatus ='Accepted'
+GROUP BY s.ScholarshipStatus; -- 59.4%
 
 -- Similarly avg salary gender wise
 SELECT s.Gender, 
