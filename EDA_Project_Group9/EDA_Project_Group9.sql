@@ -188,7 +188,7 @@ ON DELETE CASCADE; -- Deletes joboffers record if companyrecord is removed
 
 
 
--- GROUP BY QUERIES NEXT
+-- GROUP BY QUERIES NEXT -Rakshita
 
 -- Group Student on the basis Gender
  Select count(1),Gender 
@@ -277,7 +277,7 @@ GROUP BY placementStatus;
 
 SELECT 
     (COUNT(CASE WHEN PlacementStatus = 'Placed' THEN 1 END) * 100.0 / COUNT(StudentID)) AS PlacementPercentage
-FROM placementdata;
+FROM placementdata; -- Placement Perecentage
 
 
 -- Grouping Students on the basis of Social economic status ,degree awarded,job offers
@@ -293,9 +293,49 @@ LEFT JOIN joboffers j ON s.StudentID = j.StudentID
 GROUP BY s.SocioEconomicStatus, p.DegreeAwarded
 ORDER BY OfferCount DESC; -- Sort to see the most offers first
 
+  -- Rakshitha -- ------------------------------Joins and Relationships-----------------------------------
+
+-- Find students who received job offers, along with company names and salary packages.
+SELECT s.StudentID, s.Name, j.JobRole, c.CompanyName, j.SalaryPackage, j.OfferStatus
+FROM joboffers j
+JOIN studentdetails s ON j.StudentID = s.StudentID
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+ORDER BY j.SalaryPackage DESC;
+
+-- Students Who Haven't Received Any Job Offers
+SELECT s.StudentID, s.Name, d.CompanyName,p.CGPA, 'Not Placed' PlacementStatus,j.OfferID
+FROM joboffers j 
+RIGHT JOIN studentdetails s ON s.StudentID = j.StudentID
+JOIN placementdata p ON s.StudentID = p.StudentID
+left JOIN companydetails d on j.CompanyID = d.CompanyID and s.StudentID = j.StudentID
+WHERE j.OfferID IS NULL;
+
+SELECT count(s.StudentID)
+FROM joboffers j 
+RIGHT JOIN studentdetails s ON s.StudentID = j.StudentID
+JOIN placementdata p ON s.StudentID = p.StudentID
+left JOIN companydetails d on j.CompanyID = d.CompanyID and s.StudentID = j.StudentID
+WHERE j.OfferID IS NULL;
+
+-- Companies Hiring the Most Students
+SELECT c.CompanyName, COUNT(j.OfferID) AS TotalHires
+FROM joboffers j
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+WHERE j.OfferStatus = 'Accepted'
+GROUP BY c.CompanyName
+ORDER BY TotalHires DESC;
+
+-- Find companies offering the highest average salary.
+SELECT c.CompanyName, AVG(j.SalaryPackage) AS AvgSalary
+FROM joboffers j
+INNER JOIN companydetails c ON j.CompanyID = c.CompanyID
+GROUP BY c.CompanyName
+ORDER BY AvgSalary DESC
+LIMIT 3;
 
 
--- ***SOMNATH ***---
+
+-- *** ***---
 
 -- *** SUMANTH---
 
@@ -357,46 +397,7 @@ FROM
      joboffers j;
      
      
-     -- Rakshitha -- ------------------------------Joins and Relationships-----------------------------------
-
--- Find students who received job offers, along with company names and salary packages.
-SELECT s.StudentID, s.Name, j.JobRole, c.CompanyName, j.SalaryPackage, j.OfferStatus
-FROM joboffers j
-JOIN studentdetails s ON j.StudentID = s.StudentID
-JOIN companydetails c ON j.CompanyID = c.CompanyID
-ORDER BY j.SalaryPackage DESC;
-
--- Students Who Haven't Received Any Job Offers
-SELECT s.StudentID, s.Name, d.CompanyName,p.CGPA, 'Not Placed' PlacementStatus,j.OfferID
-FROM joboffers j 
-RIGHT JOIN studentdetails s ON s.StudentID = j.StudentID
-JOIN placementdata p ON s.StudentID = p.StudentID
-left JOIN companydetails d on j.CompanyID = d.CompanyID and s.StudentID = j.StudentID
-WHERE j.OfferID IS NULL;
-
-SELECT count(s.StudentID)
-FROM joboffers j 
-RIGHT JOIN studentdetails s ON s.StudentID = j.StudentID
-JOIN placementdata p ON s.StudentID = p.StudentID
-left JOIN companydetails d on j.CompanyID = d.CompanyID and s.StudentID = j.StudentID
-WHERE j.OfferID IS NULL;
-
--- Companies Hiring the Most Students
-SELECT c.CompanyName, COUNT(j.OfferID) AS TotalHires
-FROM joboffers j
-JOIN companydetails c ON j.CompanyID = c.CompanyID
-WHERE j.OfferStatus = 'Accepted'
-GROUP BY c.CompanyName
-ORDER BY TotalHires DESC;
-
--- Find companies offering the highest average salary.
-SELECT c.CompanyName, AVG(j.SalaryPackage) AS AvgSalary
-FROM joboffers j
-INNER JOIN companydetails c ON j.CompanyID = c.CompanyID
-GROUP BY c.CompanyName
-ORDER BY AvgSalary DESC
-LIMIT 3;
-
+   -- Raghgav--
 -- Find the Average CGPA by Industry Type (Using CTE)
 WITH AvgCGPAByIndustry AS (
     SELECT 
