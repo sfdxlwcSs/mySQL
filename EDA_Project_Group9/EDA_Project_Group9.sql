@@ -294,18 +294,41 @@ ORDER BY OfferCount DESC; -- Sort to see the most offers first
 
 -- Use window functions to perform calculations across a set of table rows related to the current row.
 
--- Rank Students Based on CGPA
+-- The  top 5 students (based on their CGPA rank) for each gender among those with a placement status of "Placed."
+WITH RankedStudents AS (
+    SELECT 
+        s.StudentID,
+        s.Name,
+        s.SocioEconomicStatus,
+        s.Gender,
+        p.CGPA,
+        p.AptitudeTestScore,
+        p.DegreeAwarded,
+        p.PlacementTraining,
+        dense_rank() OVER (PARTITION BY Gender ORDER BY p.CGPA DESC) AS CGPA_Rank
+    FROM 
+        studentdetails s
+    JOIN 
+        placementdata p ON s.StudentID = p.StudentID
+    WHERE 
+        PlacementStatus = 'Placed'
+)
 SELECT 
-    s.StudentID,
-    s.Name,
-    p.CGPA,
-    RANK() OVER (ORDER BY p.CGPA DESC) AS CGPA_Rank -- Assign rank order by Cgpa
+    StudentID,
+    Name,
+    CGPA,
+    CGPA_Rank,
+    SocioEconomicStatus,
+    AptitudeTestScore,
+    PlacementTraining,
+    Gender
 FROM 
-    studentdetails s
-JOIN 
-    placementdata p ON s.StudentID = p.StudentID;
+    RankedStudents
+WHERE 
+    CGPA_Rank <= 5;
 
- -- Calculate the Average Salary for Each Compan
+
+ -- Calculate the Average Salary for Each Company
 SELECT 
     j.StudentID,
     c.CompanyName,
