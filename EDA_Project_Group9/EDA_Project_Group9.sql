@@ -413,7 +413,7 @@ FROM
 WITH AvgCGPAByIndustry AS (
     SELECT 
         c.IndustryType,
-        AVG(p.CGPA) AS Avg_CGPA
+        round(AVG(p.CGPA)) AS Avg_CGPA
     FROM 
         companydetails c
     JOIN 
