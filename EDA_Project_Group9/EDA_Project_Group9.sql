@@ -344,6 +344,7 @@ SELECT
     j.StudentID,
     j.CompanyID,
     j.SalaryPackage,
+    j.OfferStatus,
     ROW_NUMBER() OVER (PARTITION BY j.StudentID ORDER BY j.OfferID DESC) AS LatestOffer -- Job offers partition by studentID
 FROM 
      joboffers j;
@@ -420,6 +421,18 @@ JOIN
     placementdata p ON s.StudentID = p.StudentID
 WHERE 
     p.CGPA > (SELECT AVG(CGPA) FROM placementdata);
+    
+    SELECT 
+    s.Nationality, 
+    COUNT(j.OfferID) AS TotalJobOffers
+FROM 
+    studentdetails s
+LEFT JOIN 
+    joboffers j ON s.StudentID = j.StudentID
+GROUP BY 
+    s.Nationality
+ORDER BY 
+    TotalJobOffers DESC;
 
  
 
