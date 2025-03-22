@@ -333,7 +333,18 @@ GROUP BY c.CompanyName
 ORDER BY AvgSalary DESC
 LIMIT 3;
 
-
+-- Which Nationality students got placed more    
+    SELECT 
+    s.Nationality, 
+    COUNT(j.OfferID) AS TotalJobOffers
+FROM 
+    studentdetails s
+LEFT JOIN 
+    joboffers j ON s.StudentID = j.StudentID
+GROUP BY 
+    s.Nationality
+ORDER BY 
+    TotalJobOffers DESC;
 
 -- *** ***---
 
@@ -429,18 +440,8 @@ JOIN
     placementdata p ON s.StudentID = p.StudentID
 WHERE 
     p.CGPA > (SELECT AVG(CGPA) FROM placementdata);
-    
-    SELECT 
-    s.Nationality, 
-    COUNT(j.OfferID) AS TotalJobOffers
-FROM 
-    studentdetails s
-LEFT JOIN 
-    joboffers j ON s.StudentID = j.StudentID
-GROUP BY 
-    s.Nationality
-ORDER BY 
-    TotalJobOffers DESC;
+
+
 
  
 
