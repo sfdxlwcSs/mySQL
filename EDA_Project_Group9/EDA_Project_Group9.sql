@@ -391,11 +391,16 @@ SELECT
     j.StudentID,
     c.CompanyName,
     j.SalaryPackage,
-    AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) AS Avg_Salary -- avaerage salary can partition by companeyID
+    AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) AS Avg_Salary, -- average salary partitioned by CompanyID
+    CASE 
+        WHEN j.SalaryPackage > AVG(j.SalaryPackage) OVER (PARTITION BY j.CompanyID) THEN 'Salary More Than Avg'
+        ELSE 'Salary Less Than Avg'
+    END AS IsAboveAvgSalary -- Boolean field to indicate if SalaryPackage is greater than the average
 FROM 
     joboffers j
 JOIN 
     companydetails c ON j.CompanyID = c.CompanyID;
+
 
 -- Identify the Latest Offer for Each Student
 SELECT 
