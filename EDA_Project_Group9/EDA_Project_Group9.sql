@@ -455,7 +455,42 @@ WHERE
         
     
 
+-- Rakshitha A --------------------------------- Aggregation and Grouping -------------------------------------------------
+-- Identifies which industry offers higher salary packages.
+SELECT c.IndustryType, AVG(j.SalaryPackage) AS AvgSalary
+FROM joboffers j
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+GROUP BY c.IndustryType
+ORDER BY j.SalaryPackage;
 
+-- Shows the number of students placed vs. not placed.
+SELECT PlacementStatus, COUNT(StudentID) AS StudentCount
+FROM placementdata
+GROUP BY PlacementStatus;
+
+-- Determines whether higher CGPA leads to better placements.
+SELECT PlacementStatus, AVG(CGPA) AS AvgCGPA
+FROM placementdata
+GROUP BY PlacementStatus;
+
+-- Impact of Internships & Certifications on Placement:
+SELECT PlacementStatus, AVG(Internships) AS AvgInternships, AVG(Workshops_Certifications) AS AvgCertifications
+FROM placementdata
+GROUP BY PlacementStatus;
+
+-- Impact of attending placemet Training
+
+SELECT PlacementTraining, COUNT(StudentID) AS TotalStudents, 
+       SUM(CASE WHEN PlacementStatus = 'Placed' THEN 1 ELSE 0 END) AS PlacedStudents
+FROM placementdata
+GROUP BY PlacementTraining;
+
+-- Highest Paying Industry
+SELECT c.IndustryType, COUNT(j.OfferID) AS JobOffersCount
+FROM joboffers j
+JOIN companydetails c ON j.CompanyID = c.CompanyID
+GROUP BY c.IndustryType
+ORDER BY COUNT(j.OfferID) DESC;
 
 
 
