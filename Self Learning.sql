@@ -257,5 +257,47 @@ ORDER BY
     tenure_years DESC
 LIMIT 3;
 
+-- Get Top Paid Employee in Each Department
+SELECT
+    e
+.department,
+    e.first_name,
+    e.last_name,
+    e.salary
+FROM
+    employees e
+WHERE
+    e.salary =
+(
+        SELECT MAX(salary)
+FROM employees
+WHERE department = e.department
+    )
+ORDER BY
+    e.department;
+-- Get Top 3 Employees with Max Tenure
+SELECT
+    emp_name,
+    hire_date,
+    TIMESTAMPDIFF(YEAR, hire_date, CURDATE()) AS tenure_years
+FROM
+    employee
+ORDER BY
+    tenure_years DESC
+LIMIT 3;
+
+-- Top 2 Employeee Salary in Each Department
+Select first_name
+,last_name,department,salary, row_number
+() over
+(partition by department order by salary desc) as dWiseSalary
+from employees;
+
+Select *
+from
+    ( Select first_name, last_name, department, salary, row_number() over (partition by department order by salary desc) as dWiseSalary
+    from employees
+) AS wf
+Where wf.dWiseSalary<=2;
 
 
