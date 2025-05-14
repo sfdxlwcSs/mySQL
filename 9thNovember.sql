@@ -256,7 +256,8 @@ transaction t
 join message m 
 on t.tran_date =m.event_dt
 and m.event='Holiday')
-SELECT * FROM Temp;  #SELECT * FROM Temp; #note this query runs  with Select * from Temp
+SELECT * FROM Temp;  # SELECT * FROM Temp; #note this query runs  with Select * from Temp 
+# if u want to run the below delete line 259 then select all and run
 
 select *
 from account a join temp
